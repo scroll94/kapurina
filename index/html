@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тренажер английских слов</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-language"></i> Тренажер английских слов</h1>
+            <p class="subtitle">Выберите правильный перевод. Нажмите "Проверить", затем "Дальше".</p>
+        </header>
+
+        <main>
+            <div class="stats">
+                <div class="stat-box">
+                    <span class="stat-label">Вопрос</span>
+                    <span id="current-question">1</span>/<span id="total-questions">14</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">Правильно</span>
+                    <span id="score">0</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">Режим</span>
+                    <span id="mode-indicator">EN -> RU</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="question-container">
+                    <h2 id="question-text">Здесь будет вопрос</h2>
+                </div>
+
+                <div class="answers-container" id="answers-container">
+                    <!-- Кнопки с ответами будут созданы скриптом -->
+                </div>
+
+                <div class="feedback" id="feedback">
+                    <!-- Здесь будет появляться результат проверки -->
+                </div>
+
+                <div class="controls">
+                    <button id="check-btn" class="btn btn-primary">
+                        <i class="fas fa-check-circle"></i> Проверить
+                    </button>
+                    <button id="next-btn" class="btn btn-secondary" disabled>
+                        <i class="fas fa-arrow-right"></i> Дальше
+                    </button>
+                    <button id="shuffle-btn" class="btn btn-accent">
+                        <i class="fas fa-random"></i> Перемешать
+                    </button>
+                    <button id="switch-mode-btn" class="btn btn-outline">
+                        <i class="fas fa-exchange-alt"></i> Сменить направление
+                    </button>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+            </div>
+
+            <div class="hint">
+                <p><i class="fas fa-lightbulb"></i> <strong>Подсказка:</strong> Вы можете сменить направление перевода (EN->RU или RU->EN) в любое время. Нажатие "Перемешать" меняет порядок вопросов.</p>
+            </div>
+        </main>
+
+        <footer>
+            <p>Проект для GitHub • Слова для изучения английского • <a href="https://github.com" target="_blank">Разместить на GitHub</a></p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
