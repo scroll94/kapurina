@@ -485,106 +485,64 @@
             { en: "to fumble", ru: "пробираться на ощупь" }
         ];
 
-        // Сложные похожие слова для 2-й стадии
-        const trickyWords = [
-            // Похожие на "лежать"
-            { en: "to lay upon a sofa", ru: "лежать на диване" },
-            { en: "to lie", ru: "лгать или лежать (контекст)" },
-            { en: "to recline", ru: "откидываться, полулежать" },
-            { en: "to lounge", ru: "расслабленно сидеть/лежать" },
-            { en: "to sprawl", ru: "растягиваться в небрежной позе" },
+        // Похожие слова для сложных вариантов ответов
+        const similarAnswers = {
+            // Похожие на "лежать на диване"
+            "лежать на диване": ["лежать на кровати", "сидеть на диване", "отдыхать на диване", "расслабляться на диване", "валяться на диване"],
+            "to lay upon a sofa": ["to lie on a sofa", "to sit on a sofa", "to rest on a sofa", "to relax on a sofa", "to lounge on a sofa"],
             
             // Похожие на "мельком увидеть"
-            { en: "to glimpse", ru: "мельком увидеть" },
-            { en: "to glance", ru: "бегло взглянуть" },
-            { en: "to peek", ru: "подглядывать, взглянуть украдкой" },
-            { en: "to peer", ru: "всматриваться" },
-            { en: "to spot", ru: "заметить, увидеть" },
+            "мельком увидеть": ["бегло увидеть", "краем глаза заметить", "мимолётно увидеть", "уловить взглядом", "заметить мельком"],
+            "to glimpse": ["to glance", "to catch a glimpse", "to spot briefly", "to see momentarily", "to notice quickly"],
             
-            // Похожие на "уговаривать"
-            { en: "to labour", ru: "изнурительно уговаривать" },
-            { en: "to persuade", ru: "убеждать, уговаривать" },
-            { en: "to convince", ru: "убеждать" },
-            { en: "to coax", ru: "уговаривать, упрашивать" },
-            { en: "to urge", ru: "настоятельно просить" },
+            // Похожие на "изнурительно уговаривать"
+            "изнурительно уговаривать": ["упорно уговаривать", "настойчиво убеждать", "долго упрашивать", "терпеливо уговаривать", "назойливо просить"],
+            "to labour": ["to persuade persistently", "to convince exhaustively", "to argue tirelessly", "to plead extensively", "to urge relentlessly"],
             
             // Похожие на "окликать"
-            { en: "to hail", ru: "окликать" },
-            { en: "to call out", ru: "кричать, окликать" },
-            { en: "to shout", ru: "кричать" },
-            { en: "to greet", ru: "приветствовать" },
-            { en: "to address", ru: "обращаться к кому-либо" },
+            "окликать": ["подзывать", "звать", "обращаться", "кричать кому-то", "привлекать внимание"],
+            "to hail": ["to call out to", "to shout to", "to address loudly", "to summon", "to attract attention"],
             
             // Похожие на "грести"
-            { en: "to row", ru: "грести" },
-            { en: "to paddle", ru: "грести, работать веслом" },
-            { en: "to oar", ru: "грести (редко)" },
-            { en: "to propel", ru: "двигать вперёд" },
-            { en: "to navigate", ru: "управлять (лодкой)" },
+            "грести": ["работать вёслами", "плыть на вёслах", "управлять лодкой", "махать вёслами", "двигать лодку"],
+            "to row": ["to paddle", "to boat", "to propel a boat", "to use oars", "to navigate with oars"],
             
             // Похожие на "утонуть"
-            { en: "to draw", ru: "утонуть" },
-            { en: "to drown", ru: "тонуть" },
-            { en: "to sink", ru: "погружаться, тонуть" },
-            { en: "to submerge", ru: "погружать под воду" },
-            { en: "to go under", ru: "уйти под воду" },
+            "утонуть": ["пойти ко дну", "погрузиться под воду", "захлебнуться", "попасть под воду", "уйти на дно"],
+            "to draw": ["to drown", "to sink", "to go under", "to be submerged", "to be drowned"],
             
             // Похожие на "спасаться бегством"
-            { en: "to escape", ru: "спасаться бегством" },
-            { en: "to flee", ru: "бежать, спасаться" },
-            { en: "to run away", ru: "убегать" },
-            { en: "to get away", ru: "убираться, уходить" },
-            { en: "to break free", ru: "вырваться на свободу" },
+            "спасаться бегством": ["убегать", "уносить ноги", "спасаться", "быстро уходить", "скрываться бегством"],
+            "to escape": ["to flee", "to run away", "to get away", "to make an escape", "to break free"],
             
-            // Похожие на "приукрашивать"
-            { en: "to put in striking oddition", ru: "приукрашивать рассказ" },
-            { en: "to embellish", ru: "приукрашивать" },
-            { en: "to exaggerate", ru: "преувеличивать" },
-            { en: "to elaborate", ru: "подробно излагать" },
-            { en: "to dramatize", ru: "драматизировать" },
+            // Похожие на "приукрашивать рассказ разными подробностями"
+            "приукрашивать рассказ разными подробностями": ["украшать рассказ деталями", "дополнять рассказ подробностями", "обогащать рассказ деталями", "расцвечивать рассказ", "насыщать рассказ деталями"],
+            "to put in striking oddition": ["to embellish a story", "to enrich a narrative", "to enhance a tale", "to adorn a story", "to elaborate a narrative"],
             
-            // Похожие на "просунуть"
-            { en: "to push ones head and shoulders through", ru: "просунуть голову и плечи" },
-            { en: "to squeeze through", ru: "протиснуться" },
-            { en: "to insert", ru: "вставлять, просовывать" },
-            { en: "to thrust", ru: "протолкнуть, сунуть" },
-            { en: "to poke", ru: "тыкать, совать" },
+            // Похожие на "просунуть голову и плечи"
+            "просунуть голову и плечи": ["высунуть голову и плечи", "протиснуть голову и плечи", "вставить голову и плечи", "пропихнуть голову и плечи", "продеть голову и плечи"],
+            "to push ones head and shoulders through": ["to thrust head and shoulders through", "to squeeze head and shoulders through", "to insert head and shoulders through", "to shove head and shoulders through", "to force head and shoulders through"],
             
             // Похожие на "плакать от радости"
-            { en: "to cry of gladness", ru: "плакать от радости" },
-            { en: "to weep with joy", ru: "рыдать от радости" },
-            { en: "to shed tears of happiness", ru: "проливать слёзы счастья" },
-            { en: "to sob with delight", ru: "всхлипывать от восторга" },
-            { en: "to be moved to tears", ru: "быть растроганным до слёз" },
+            "плакать от радости": ["рыдать от счастья", "проливать слёзы радости", "всплакнуть от радости", "заплакать от счастья", "заливаться слезами радости"],
+            "to cry of gladness": ["to weep with joy", "to shed tears of happiness", "to sob with delight", "to tear up with joy", "to be moved to tears of happiness"],
             
-            // Похожие на "проблеск света"
-            { en: "a speck of daylight", ru: "проблеск дневного света" },
-            { en: "a gleam of light", ru: "проблеск света" },
-            { en: "a glimmer", ru: "слабый свет, проблеск" },
-            { en: "a ray of light", ru: "луч света" },
-            { en: "a flicker", ru: "мерцание, проблеск" },
+            // Похожие на "проблеск дневного света"
+            "проблеск дневного света": ["луч дневного света", "отблеск дневного света", "просвет дневного света", "мерцание дневного света", "отсвет дневного света"],
+            "a speck of daylight": ["a ray of daylight", "a gleam of daylight", "a glimmer of daylight", "a flicker of daylight", "a beam of daylight"],
             
-            // Похожие на "моток"
-            { en: "twine clew", ru: "моток бочевки" },
-            { en: "a ball of twine", ru: "клубок верёвки" },
-            { en: "a coil of rope", ru: "бухта верёвки" },
-            { en: "a spool of thread", ru: "катушка ниток" },
-            { en: "a reel", ru: "катушка, барабан" },
+            // Похожие на "моток бочевки"
+            "моток бочевки": ["клубок верёвки", "бухта бечёвки", "катушка шпагата", "рулон шнура", "свёрток бечёвки"],
+            "twine clew": ["twine ball", "twine coil", "twine roll", "twine bundle", "twine spool"],
             
-            // Похожие на "коридор"
-            { en: "passage", ru: "коридор проход" },
-            { en: "corridor", ru: "коридор" },
-            { en: "hallway", ru: "коридор, холл" },
-            { en: "aisle", ru: "проход между рядами" },
-            { en: "gangway", ru: "проход, трап" },
+            // Похожие на "коридор проход"
+            "коридор проход": ["проход коридор", "ход коридор", "переход коридор", "аллея проход", "галерея проход"],
+            "passage": ["corridor", "hallway", "aisle", "walkway", "gangway"],
             
             // Похожие на "пробираться на ощупь"
-            { en: "to fumble", ru: "пробираться на ощупь" },
-            { en: "to grope", ru: "ощупывать, искать на ощупь" },
-            { en: "to feel ones way", ru: "идти на ощупь" },
-            { en: "to stumble", ru: "спотыкаться, натыкаться" },
-            { en: "to blunder", ru: "действовать наугад" }
-        ];
+            "пробираться на ощупь": ["идти на ощупь", "передвигаться на ощупь", "шарить в темноте", "двигаться ощупью", "нащупывать путь"],
+            "to fumble": ["to grope", "to feel ones way", "to stumble in the dark", "to blunder along", "to move by touch"]
+        };
 
         // Переменные состояния
         let currentStage = 1;
@@ -599,6 +557,7 @@
         let currentWords = [];
         let currentModes = []; // Массив режимов для каждого вопроса
         let shuffledWords = [];
+        let usedQuestions = new Set(); // Для отслеживания использованных вопросов во 2-й стадии
         
         // DOM элементы
         const questionEl = document.getElementById('question');
@@ -637,6 +596,7 @@
             correctStreak = 0;
             selectedAnswer = null;
             isAnswered = false;
+            usedQuestions.clear();
             
             // Обновляем кнопки стадий
             stage1Btn.classList.remove('active', 'completed');
@@ -653,7 +613,7 @@
                 if (completedStage1) {
                     stage1Btn.classList.add('completed');
                 }
-                currentWords = trickyWords;
+                currentWords = basicWords; // Используем ТЕ ЖЕ 14 слов
                 totalQuestionsNeeded = 20; // Нужно 20 правильных ответов
                 subtitleEl.textContent = "Сложный тест: 20 вопросов, похожие ответы, случайные направления";
                 totalEl.textContent = totalQuestionsNeeded;
@@ -671,19 +631,45 @@
         function generateQuestionModes() {
             currentModes = [];
             for (let i = 0; i < totalQuestionsNeeded; i++) {
-                // Случайный выбор направления
+                // Случайный выбор направления (50/50)
                 currentModes.push(Math.random() > 0.5 ? 'en-ru' : 'ru-en');
             }
         }
         
+        // Получить случайный вопрос для 2-й стадии
+        function getRandomQuestionForStage2() {
+            let availableWords = currentWords.filter(word => {
+                const key = `${word.en}-${word.ru}`;
+                return !usedQuestions.has(key);
+            });
+            
+            // Если все слова использованы, сбросить использованные
+            if (availableWords.length === 0) {
+                usedQuestions.clear();
+                availableWords = [...currentWords];
+            }
+            
+            const randomWord = availableWords[Math.floor(Math.random() * availableWords.length)];
+            const key = `${randomWord.en}-${randomWord.ru}`;
+            usedQuestions.add(key);
+            
+            return randomWord;
+        }
+        
         // Загрузка вопроса
         function loadQuestion() {
-            if (currentStage === 2 && currentQuestionIndex >= totalQuestionsNeeded) {
+            if (currentStage === 2 && score >= totalQuestionsNeeded) {
                 showCompletionMessage();
                 return;
             }
             
-            const word = shuffledWords[currentQuestionIndex];
+            let word;
+            if (currentStage === 1) {
+                word = shuffledWords[currentQuestionIndex];
+            } else {
+                word = getRandomQuestionForStage2();
+            }
+            
             const currentMode = currentModes[currentQuestionIndex];
             
             // Устанавливаем вопрос
@@ -704,7 +690,7 @@
             nextBtn.disabled = true;
             
             // Обновляем прогресс
-            currentEl.textContent = currentQuestionIndex + 1;
+            currentEl.textContent = currentStage === 1 ? currentQuestionIndex + 1 : score + 1;
             updateProgressBar();
         }
         
@@ -715,39 +701,38 @@
             // Правильный ответ
             const correctAnswer = mode === 'en-ru' ? correctWord.ru : correctWord.en;
             
-            // Собираем неправильные ответы
-            let wrongAnswers = [];
+            // Получаем похожие ответы
+            const correctKey = mode === 'en-ru' ? correctWord.ru : correctWord.en;
+            let similarOptions = similarAnswers[correctKey] || [];
             
-            if (currentStage === 1) {
-                // Для основной стадии - случайные другие слова
-                const otherWords = shuffledWords.filter(w => w !== correctWord);
-                for (let i = 0; i < 3 && i < otherWords.length; i++) {
-                    wrongAnswers.push(mode === 'en-ru' ? otherWords[i].ru : otherWords[i].en);
-                }
-            } else {
-                // Для сложной стадии - похожие ответы из trickyWords
-                const similarWords = trickyWords.filter(w => 
-                    (mode === 'en-ru' && w.ru !== correctWord.ru && 
-                     w.ru.startsWith(correctWord.ru.substring(0, 3)) || 
-                     w.ru.includes(correctWord.ru.split(' ')[0])) ||
-                    (mode === 'ru-en' && w.en !== correctWord.en &&
-                     w.en.startsWith(correctWord.en.substring(0, 5)) ||
-                     w.en.includes(correctWord.en.split(' ')[0]))
-                ).slice(0, 4);
-                
-                // Если не нашли достаточно похожих, добавляем случайные
-                wrongAnswers = similarWords.map(w => mode === 'en-ru' ? w.ru : w.en);
-                while (wrongAnswers.length < 4) {
-                    const randomWord = trickyWords[Math.floor(Math.random() * trickyWords.length)];
-                    const wrongAnswer = mode === 'en-ru' ? randomWord.ru : randomWord.en;
-                    if (wrongAnswer !== correctAnswer && !wrongAnswers.includes(wrongAnswer)) {
-                        wrongAnswers.push(wrongAnswer);
+            // Если нет похожих ответов, создаем искусственные
+            if (similarOptions.length < 4) {
+                similarOptions = [];
+                // Берем похожие ответы из других слов
+                for (let otherWord of currentWords) {
+                    if (otherWord !== correctWord) {
+                        const otherAnswer = mode === 'en-ru' ? otherWord.ru : otherWord.en;
+                        if (otherAnswer.length > 3 && !similarOptions.includes(otherAnswer)) {
+                            similarOptions.push(otherAnswer);
+                            if (similarOptions.length >= 4) break;
+                        }
                     }
                 }
-                wrongAnswers = wrongAnswers.slice(0, 4);
             }
             
-            // Смешиваем все ответы
+            // Берем 4 похожих ответа
+            let wrongAnswers = [...similarOptions].slice(0, 4);
+            
+            // Если не хватает, добавляем случайные
+            while (wrongAnswers.length < 4) {
+                const randomWord = currentWords[Math.floor(Math.random() * currentWords.length)];
+                const wrongAnswer = mode === 'en-ru' ? randomWord.ru : randomWord.en;
+                if (wrongAnswer !== correctAnswer && !wrongAnswers.includes(wrongAnswer)) {
+                    wrongAnswers.push(wrongAnswer);
+                }
+            }
+            
+            // Смешиваем все ответы (всего 5: 1 правильный + 4 похожих)
             let allAnswers = [correctAnswer, ...wrongAnswers];
             allAnswers = shuffleArray(allAnswers);
             
@@ -778,7 +763,19 @@
         function checkAnswer() {
             if (!selectedAnswer || isAnswered) return;
             
-            const word = shuffledWords[currentQuestionIndex];
+            let word;
+            if (currentStage === 1) {
+                word = shuffledWords[currentQuestionIndex];
+            } else {
+                // Для 2-й стадии нужно найти слово по вопросу
+                const currentMode = currentModes[currentQuestionIndex];
+                const questionText = questionEl.textContent;
+                word = currentWords.find(w => 
+                    (currentMode === 'en-ru' && w.en === questionText) ||
+                    (currentMode === 'ru-en' && w.ru === questionText)
+                );
+            }
+            
             const currentMode = currentModes[currentQuestionIndex];
             const correctAnswer = currentMode === 'en-ru' ? word.ru : word.en;
             const isCorrect = selectedAnswer === correctAnswer;
@@ -801,7 +798,7 @@
                 
                 // Для 2-й стадии проверяем достижение цели
                 if (currentStage === 2 && score >= totalQuestionsNeeded) {
-                    showCompletionMessage();
+                    setTimeout(() => showCompletionMessage(), 1000);
                 }
                 
                 resultEl.textContent = currentStage === 1 ? 
@@ -822,17 +819,17 @@
         
         // Следующий вопрос
         function nextQuestion() {
+            if (currentStage === 2 && score >= totalQuestionsNeeded) {
+                showCompletionMessage();
+                return;
+            }
+            
             currentQuestionIndex++;
             
             if (currentStage === 1 && currentQuestionIndex >= shuffledWords.length) {
                 // Завершение 1-й стадии
                 completedStage1 = true;
                 showStage1Completion();
-                return;
-            }
-            
-            if (currentStage === 2 && currentQuestionIndex >= totalQuestionsNeeded) {
-                showCompletionMessage();
                 return;
             }
             
@@ -898,13 +895,13 @@
                             <p>Ты прошла сложный тест из 20 вопросов! 🌟</p>
                             <p>С похожими ответами и меняющимися направлениями!</p>
                             <p>Ты просто гений! 🧠💫</p>
-                            <p style="font-size: 1.8em; margin-top: 20px;">💖💖💖 Моя умничка! 💖💖💖</p>
+                            <p style="font-size: 2em; margin-top: 20px; color: #e74c3c;">💖💖💖 Моя умничка! 💖💖💖</p>
+                            <p style="font-size: 1.8em; margin-top: 10px;">Ты моя принцесса! 👸✨</p>
                         </div>
                         <div class="stats-completion">
                             <h3>Полная статистика:</h3>
                             <p>Основной тест: ${completedStage1 ? 'Пройден ✅' : 'Не пройден'}</p>
-                            <p>Сложный тест: Пройден! ✅</p>
-                            <p>Всего правильных ответов: ${score}</p>
+                            <p>Сложный тест: Пройден! ✅ (${score}/20)</p>
                             <p>Максимальная серия: ${correctStreak}</p>
                             <p>Ты настоящая чемпионка! 🏅</p>
                         </div>
@@ -944,11 +941,14 @@
         
         // Перемешать всё
         function shuffleAll() {
-            shuffledWords = shuffleArray([...currentWords]);
+            if (currentStage === 1) {
+                shuffledWords = shuffleArray([...currentWords]);
+            }
             generateQuestionModes();
             currentQuestionIndex = 0;
             score = 0;
             correctStreak = 0;
+            usedQuestions.clear();
             updateScoreDisplay();
             loadQuestion();
             
