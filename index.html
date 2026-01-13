@@ -3,242 +3,343 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Тест английских слов EN↔RU</title>
+    <title>Продвинутый тест английских слов</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            background: #f0f2f5;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             padding: 20px;
-            line-height: 1.6;
+            color: #333;
         }
         
         .container {
-            max-width: 700px;
+            max-width: 900px;
             margin: 0 auto;
             background: white;
             padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+        
+        .stage-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .stage-btn {
+            padding: 12px 25px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: all 0.3s;
+        }
+        
+        .stage-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .stage-btn.completed {
+            background: #27ae60;
+            color: white;
+            border-color: #27ae60;
         }
         
         h1 {
             color: #2c3e50;
             text-align: center;
             margin-bottom: 10px;
-            font-size: 2em;
+            font-size: 2.5em;
         }
         
         .subtitle {
             text-align: center;
             color: #7f8c8d;
-            margin-bottom: 25px;
-            font-size: 1.1em;
+            margin-bottom: 30px;
+            font-size: 1.2em;
         }
         
         .stats {
-            display: flex;
-            justify-content: space-between;
-            background: #ecf0f1;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 25px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
         }
         
         .stat-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
             text-align: center;
+            border: 2px solid #e9ecef;
         }
         
         .stat-label {
             display: block;
-            color: #7f8c8d;
+            color: #6c757d;
             font-size: 0.9em;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
         }
         
         .stat-value {
-            font-size: 1.8em;
+            font-size: 2em;
             font-weight: bold;
             color: #2c3e50;
         }
         
-        #score {
+        #score-value {
             color: #27ae60;
+        }
+        
+        #streak-value {
+            color: #e74c3c;
         }
         
         #mode-display {
             background: #3498db;
             color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9em;
+            padding: 8px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            font-weight: bold;
         }
         
         .question-box {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             color: white;
-            padding: 25px;
-            border-radius: 12px;
-            margin-bottom: 25px;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
             text-align: center;
-            min-height: 140px;
+            min-height: 160px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
         
         #question {
-            font-size: 1.8em;
+            font-size: 2em;
             font-weight: bold;
             line-height: 1.4;
         }
         
         .answers {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 25px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
         }
         
         .answer-btn {
-            padding: 18px 20px;
-            border: 2px solid #ddd;
+            padding: 20px;
+            border: 3px solid #ddd;
             background: white;
-            border-radius: 10px;
+            border-radius: 12px;
             cursor: pointer;
             text-align: left;
-            font-size: 1.1em;
+            font-size: 1.2em;
             transition: all 0.2s;
+            font-weight: 500;
         }
         
-        .answer-btn:hover {
+        .answer-btn:hover:not(.disabled) {
             background: #f8f9fa;
             border-color: #aaa;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
         .answer-btn.selected {
             border-color: #3498db;
             background: #ebf5fb;
-            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.2);
+            box-shadow: 0 5px 20px rgba(52, 152, 219, 0.3);
         }
         
         .answer-btn.correct {
             border-color: #27ae60;
             background: #d5f4e6;
+            animation: pulse 0.5s;
         }
         
         .answer-btn.wrong {
             border-color: #e74c3c;
             background: #fadbd8;
+            animation: shake 0.5s;
+        }
+        
+        .answer-btn.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
         }
         
         .controls {
             display: flex;
             flex-wrap: wrap;
-            gap: 12px;
+            gap: 15px;
             justify-content: center;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
         
         button {
-            padding: 14px 28px;
+            padding: 16px 32px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 1em;
+            font-size: 1.1em;
             font-weight: 600;
-            transition: all 0.2s;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
         
         #check-btn {
-            background: #27ae60;
+            background: linear-gradient(135deg, #27ae60 0%, #219653 100%);
             color: white;
         }
         
         #check-btn:hover:not(:disabled) {
-            background: #219653;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(39, 174, 96, 0.4);
         }
         
         #next-btn {
-            background: #3498db;
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
             color: white;
         }
         
         #next-btn:hover:not(:disabled) {
-            background: #2980b9;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(52, 152, 219, 0.4);
         }
         
         #shuffle-btn {
-            background: #9b59b6;
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
             color: white;
         }
         
         #shuffle-btn:hover {
-            background: #8e44ad;
-            transform: translateY(-2px);
-        }
-        
-        #mode-btn {
-            background: #e67e22;
-            color: white;
-        }
-        
-        #mode-btn:hover {
-            background: #d35400;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(155, 89, 182, 0.4);
         }
         
         button:disabled {
             opacity: 0.5;
             cursor: not-allowed;
             transform: none !important;
+            box-shadow: none !important;
         }
         
         .result-box {
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 25px;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
             text-align: center;
-            font-size: 1.2em;
+            font-size: 1.3em;
             font-weight: bold;
-            min-height: 80px;
+            min-height: 100px;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-direction: column;
         }
         
         .result-default {
             background: #f8f9fa;
             color: #495057;
-            border: 2px dashed #dee2e6;
+            border: 3px dashed #dee2e6;
         }
         
         .result-correct {
             background: #d4edda;
             color: #155724;
-            border: 2px solid #c3e6cb;
+            border: 3px solid #c3e6cb;
+            animation: fadeIn 0.5s;
         }
         
         .result-wrong {
             background: #f8d7da;
             color: #721c24;
-            border: 2px solid #f5c6cb;
+            border: 3px solid #f5c6cb;
+            animation: fadeIn 0.5s;
+        }
+        
+        .completion-message {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            color: #2c3e50;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 30px 0;
+            border: 5px solid #ff9a9e;
+            animation: celebration 2s infinite;
+        }
+        
+        .completion-title {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #e74c3c;
+        }
+        
+        .completion-text {
+            font-size: 1.5em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .stats-completion {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes celebration {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
         }
         
         .progress-container {
-            height: 10px;
+            height: 12px;
             background: #ecf0f1;
-            border-radius: 5px;
+            border-radius: 6px;
             overflow: hidden;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
+            position: relative;
         }
         
         .progress-bar {
@@ -246,22 +347,23 @@
             background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
             width: 0%;
             transition: width 0.5s ease;
+            position: relative;
         }
         
-        .hint {
-            background: #fff3cd;
-            border-left: 5px solid #ffc107;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 25px;
-            color: #856404;
+        .progress-label {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+            font-weight: bold;
         }
         
         footer {
             text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 2px solid #eee;
             color: #7f8c8d;
             font-size: 0.9em;
         }
@@ -269,38 +371,20 @@
         footer a {
             color: #3498db;
             text-decoration: none;
+            font-weight: bold;
         }
         
         footer a:hover {
             text-decoration: underline;
         }
         
-        @media (max-width: 600px) {
-            .container {
-                padding: 20px;
-            }
-            
-            h1 {
-                font-size: 1.5em;
+        @media (max-width: 768px) {
+            .answers {
+                grid-template-columns: 1fr;
             }
             
             .stats {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .question-box {
-                padding: 20px;
-                min-height: 120px;
-            }
-            
-            #question {
-                font-size: 1.4em;
-            }
-            
-            .answer-btn {
-                padding: 15px;
-                font-size: 1em;
+                grid-template-columns: repeat(2, 1fr);
             }
             
             .controls {
@@ -310,13 +394,26 @@
             button {
                 width: 100%;
             }
+            
+            #question {
+                font-size: 1.5em;
+            }
+            
+            .completion-title {
+                font-size: 1.8em;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📚 Тест английских слов</h1>
-        <p class="subtitle">Выберите правильный перевод. Нажмите "Проверить", затем "Дальше"</p>
+        <div class="stage-indicator">
+            <button class="stage-btn active" id="stage1-btn" onclick="switchStage(1)">🎯 1. Основной тест</button>
+            <button class="stage-btn" id="stage2-btn" onclick="switchStage(2)">🔥 2. Сложный тест</button>
+        </div>
+        
+        <h1>📚 Продвинутый тест слов</h1>
+        <p class="subtitle" id="subtitle">Основной тест: 14 слов, разные направления перевода</p>
         
         <div class="stats">
             <div class="stat-box">
@@ -325,12 +422,21 @@
             </div>
             <div class="stat-box">
                 <span class="stat-label">Правильно</span>
-                <span class="stat-value" id="score">0</span>
+                <span class="stat-value" id="score-value">0</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-label">Серия</span>
+                <span class="stat-value" id="streak-value">0</span>
             </div>
             <div class="stat-box">
                 <span class="stat-label">Режим</span>
-                <span id="mode-display">EN → RU</span>
+                <div id="mode-display">EN → RU</div>
             </div>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+            <div class="progress-label" id="progress-label">0%</div>
         </div>
         
         <div class="question-box">
@@ -346,29 +452,23 @@
         </div>
         
         <div class="controls">
-            <button id="check-btn">✅ Проверить</button>
-            <button id="next-btn" disabled>➡️ Дальше</button>
-            <button id="shuffle-btn">🔀 Перемешать</button>
-            <button id="mode-btn">🔄 Сменить направление</button>
+            <button id="check-btn">✅ Проверить ответ</button>
+            <button id="next-btn" disabled>➡️ Следующий вопрос</button>
+            <button id="shuffle-btn">🔀 Перемешать всё</button>
         </div>
         
-        <div class="progress-container">
-            <div class="progress-bar" id="progress-bar"></div>
-        </div>
-        
-        <div class="hint">
-            💡 <strong>Подсказка:</strong> Нажмите "Перемешать" для случайного порядка вопросов. 
-            Кнопка "Сменить направление" меняет перевод с английского на русский и наоборот.
+        <div id="completion-section" style="display: none;">
+            <!-- Сюда будет вставляться сообщение о завершении -->
         </div>
         
         <footer>
-            <p>Тест для изучения слов • <a href="https://github.com/scroll94/kapurina" target="_blank">GitHub репозиторий</a></p>
+            <p>Тест создан с любовью для Кариночки ❤️ • <a href="https://github.com/scroll94/kapurina" target="_blank">GitHub репозиторий</a></p>
         </footer>
     </div>
 
     <script>
-        // Словарь слов с исправлениями
-        const words = [
+        // Основные слова (14 слов)
+        const basicWords = [
             { en: "to lay upon a sofa", ru: "лежать на диване" },
             { en: "to glimpse", ru: "мельком увидеть" },
             { en: "to labour", ru: "изнурительно уговаривать" },
@@ -385,55 +485,220 @@
             { en: "to fumble", ru: "пробираться на ощупь" }
         ];
 
+        // Сложные похожие слова для 2-й стадии
+        const trickyWords = [
+            // Похожие на "лежать"
+            { en: "to lay upon a sofa", ru: "лежать на диване" },
+            { en: "to lie", ru: "лгать или лежать (контекст)" },
+            { en: "to recline", ru: "откидываться, полулежать" },
+            { en: "to lounge", ru: "расслабленно сидеть/лежать" },
+            { en: "to sprawl", ru: "растягиваться в небрежной позе" },
+            
+            // Похожие на "мельком увидеть"
+            { en: "to glimpse", ru: "мельком увидеть" },
+            { en: "to glance", ru: "бегло взглянуть" },
+            { en: "to peek", ru: "подглядывать, взглянуть украдкой" },
+            { en: "to peer", ru: "всматриваться" },
+            { en: "to spot", ru: "заметить, увидеть" },
+            
+            // Похожие на "уговаривать"
+            { en: "to labour", ru: "изнурительно уговаривать" },
+            { en: "to persuade", ru: "убеждать, уговаривать" },
+            { en: "to convince", ru: "убеждать" },
+            { en: "to coax", ru: "уговаривать, упрашивать" },
+            { en: "to urge", ru: "настоятельно просить" },
+            
+            // Похожие на "окликать"
+            { en: "to hail", ru: "окликать" },
+            { en: "to call out", ru: "кричать, окликать" },
+            { en: "to shout", ru: "кричать" },
+            { en: "to greet", ru: "приветствовать" },
+            { en: "to address", ru: "обращаться к кому-либо" },
+            
+            // Похожие на "грести"
+            { en: "to row", ru: "грести" },
+            { en: "to paddle", ru: "грести, работать веслом" },
+            { en: "to oar", ru: "грести (редко)" },
+            { en: "to propel", ru: "двигать вперёд" },
+            { en: "to navigate", ru: "управлять (лодкой)" },
+            
+            // Похожие на "утонуть"
+            { en: "to draw", ru: "утонуть" },
+            { en: "to drown", ru: "тонуть" },
+            { en: "to sink", ru: "погружаться, тонуть" },
+            { en: "to submerge", ru: "погружать под воду" },
+            { en: "to go under", ru: "уйти под воду" },
+            
+            // Похожие на "спасаться бегством"
+            { en: "to escape", ru: "спасаться бегством" },
+            { en: "to flee", ru: "бежать, спасаться" },
+            { en: "to run away", ru: "убегать" },
+            { en: "to get away", ru: "убираться, уходить" },
+            { en: "to break free", ru: "вырваться на свободу" },
+            
+            // Похожие на "приукрашивать"
+            { en: "to put in striking oddition", ru: "приукрашивать рассказ" },
+            { en: "to embellish", ru: "приукрашивать" },
+            { en: "to exaggerate", ru: "преувеличивать" },
+            { en: "to elaborate", ru: "подробно излагать" },
+            { en: "to dramatize", ru: "драматизировать" },
+            
+            // Похожие на "просунуть"
+            { en: "to push ones head and shoulders through", ru: "просунуть голову и плечи" },
+            { en: "to squeeze through", ru: "протиснуться" },
+            { en: "to insert", ru: "вставлять, просовывать" },
+            { en: "to thrust", ru: "протолкнуть, сунуть" },
+            { en: "to poke", ru: "тыкать, совать" },
+            
+            // Похожие на "плакать от радости"
+            { en: "to cry of gladness", ru: "плакать от радости" },
+            { en: "to weep with joy", ru: "рыдать от радости" },
+            { en: "to shed tears of happiness", ru: "проливать слёзы счастья" },
+            { en: "to sob with delight", ru: "всхлипывать от восторга" },
+            { en: "to be moved to tears", ru: "быть растроганным до слёз" },
+            
+            // Похожие на "проблеск света"
+            { en: "a speck of daylight", ru: "проблеск дневного света" },
+            { en: "a gleam of light", ru: "проблеск света" },
+            { en: "a glimmer", ru: "слабый свет, проблеск" },
+            { en: "a ray of light", ru: "луч света" },
+            { en: "a flicker", ru: "мерцание, проблеск" },
+            
+            // Похожие на "моток"
+            { en: "twine clew", ru: "моток бочевки" },
+            { en: "a ball of twine", ru: "клубок верёвки" },
+            { en: "a coil of rope", ru: "бухта верёвки" },
+            { en: "a spool of thread", ru: "катушка ниток" },
+            { en: "a reel", ru: "катушка, барабан" },
+            
+            // Похожие на "коридор"
+            { en: "passage", ru: "коридор проход" },
+            { en: "corridor", ru: "коридор" },
+            { en: "hallway", ru: "коридор, холл" },
+            { en: "aisle", ru: "проход между рядами" },
+            { en: "gangway", ru: "проход, трап" },
+            
+            // Похожие на "пробираться на ощупь"
+            { en: "to fumble", ru: "пробираться на ощупь" },
+            { en: "to grope", ru: "ощупывать, искать на ощупь" },
+            { en: "to feel ones way", ru: "идти на ощупь" },
+            { en: "to stumble", ru: "спотыкаться, натыкаться" },
+            { en: "to blunder", ru: "действовать наугад" }
+        ];
+
         // Переменные состояния
+        let currentStage = 1;
         let currentQuestionIndex = 0;
         let score = 0;
+        let correctStreak = 0;
         let selectedAnswer = null;
         let isAnswered = false;
-        let mode = 'en-ru'; // 'en-ru' или 'ru-en'
-        let shuffledWords = [...words];
+        let totalQuestionsNeeded = 0;
+        let completedStage1 = false;
+        
+        let currentWords = [];
+        let currentModes = []; // Массив режимов для каждого вопроса
+        let shuffledWords = [];
         
         // DOM элементы
         const questionEl = document.getElementById('question');
         const answersContainer = document.getElementById('answers-container');
         const resultEl = document.getElementById('result');
         const currentEl = document.getElementById('current');
-        const scoreEl = document.getElementById('score');
+        const scoreEl = document.getElementById('score-value');
+        const streakEl = document.getElementById('streak-value');
         const totalEl = document.getElementById('total');
         const modeDisplay = document.getElementById('mode-display');
         const progressBar = document.getElementById('progress-bar');
+        const progressLabel = document.getElementById('progress-label');
         const checkBtn = document.getElementById('check-btn');
         const nextBtn = document.getElementById('next-btn');
         const shuffleBtn = document.getElementById('shuffle-btn');
-        const modeBtn = document.getElementById('mode-btn');
+        const stage1Btn = document.getElementById('stage1-btn');
+        const stage2Btn = document.getElementById('stage2-btn');
+        const subtitleEl = document.getElementById('subtitle');
+        const completionSection = document.getElementById('completion-section');
         
         // Инициализация
         function init() {
-            totalEl.textContent = words.length;
-            shuffleWords();
-            loadQuestion();
+            switchStage(1);
             
             // Назначаем обработчики событий
             checkBtn.addEventListener('click', checkAnswer);
             nextBtn.addEventListener('click', nextQuestion);
-            shuffleBtn.addEventListener('click', shuffleWords);
-            modeBtn.addEventListener('click', switchMode);
+            shuffleBtn.addEventListener('click', shuffleAll);
+        }
+        
+        // Переключение стадии
+        function switchStage(stage) {
+            currentStage = stage;
+            currentQuestionIndex = 0;
+            score = 0;
+            correctStreak = 0;
+            selectedAnswer = null;
+            isAnswered = false;
+            
+            // Обновляем кнопки стадий
+            stage1Btn.classList.remove('active', 'completed');
+            stage2Btn.classList.remove('active', 'completed');
+            
+            if (stage === 1) {
+                stage1Btn.classList.add('active');
+                currentWords = basicWords;
+                totalQuestionsNeeded = currentWords.length;
+                subtitleEl.textContent = "Основной тест: 14 слов, разные направления перевода";
+                totalEl.textContent = totalQuestionsNeeded;
+            } else {
+                stage2Btn.classList.add('active');
+                if (completedStage1) {
+                    stage1Btn.classList.add('completed');
+                }
+                currentWords = trickyWords;
+                totalQuestionsNeeded = 20; // Нужно 20 правильных ответов
+                subtitleEl.textContent = "Сложный тест: 20 вопросов, похожие ответы, случайные направления";
+                totalEl.textContent = totalQuestionsNeeded;
+            }
+            
+            // Генерируем случайные направления для вопросов
+            generateQuestionModes();
+            shuffleAll();
+            
+            updateScoreDisplay();
+            loadQuestion();
+        }
+        
+        // Генерация случайных режимов для вопросов
+        function generateQuestionModes() {
+            currentModes = [];
+            for (let i = 0; i < totalQuestionsNeeded; i++) {
+                // Случайный выбор направления
+                currentModes.push(Math.random() > 0.5 ? 'en-ru' : 'ru-en');
+            }
         }
         
         // Загрузка вопроса
         function loadQuestion() {
+            if (currentStage === 2 && currentQuestionIndex >= totalQuestionsNeeded) {
+                showCompletionMessage();
+                return;
+            }
+            
             const word = shuffledWords[currentQuestionIndex];
+            const currentMode = currentModes[currentQuestionIndex];
             
             // Устанавливаем вопрос
-            questionEl.textContent = mode === 'en-ru' ? word.en : word.ru;
+            questionEl.textContent = currentMode === 'en-ru' ? word.en : word.ru;
+            
+            // Обновляем отображение режима
+            modeDisplay.textContent = currentMode === 'en-ru' ? 'EN → RU' : 'RU → EN';
             
             // Генерируем варианты ответов
-            generateAnswers(word);
+            generateAnswers(word, currentMode);
             
             // Сбрасываем состояние
             selectedAnswer = null;
             isAnswered = false;
-            resultEl.textContent = 'Выберите вариант ответа';
+            resultEl.textContent = currentStage === 1 ? 'Выберите вариант ответа' : 'Внимание! Ответы очень похожи!';
             resultEl.className = 'result-box result-default';
             checkBtn.disabled = false;
             nextBtn.disabled = true;
@@ -444,7 +709,7 @@
         }
         
         // Генерация вариантов ответов
-        function generateAnswers(correctWord) {
+        function generateAnswers(correctWord, mode) {
             answersContainer.innerHTML = '';
             
             // Правильный ответ
@@ -452,10 +717,34 @@
             
             // Собираем неправильные ответы
             let wrongAnswers = [];
-            const otherWords = shuffledWords.filter(w => w !== correctWord);
             
-            for (let i = 0; i < 3 && i < otherWords.length; i++) {
-                wrongAnswers.push(mode === 'en-ru' ? otherWords[i].ru : otherWords[i].en);
+            if (currentStage === 1) {
+                // Для основной стадии - случайные другие слова
+                const otherWords = shuffledWords.filter(w => w !== correctWord);
+                for (let i = 0; i < 3 && i < otherWords.length; i++) {
+                    wrongAnswers.push(mode === 'en-ru' ? otherWords[i].ru : otherWords[i].en);
+                }
+            } else {
+                // Для сложной стадии - похожие ответы из trickyWords
+                const similarWords = trickyWords.filter(w => 
+                    (mode === 'en-ru' && w.ru !== correctWord.ru && 
+                     w.ru.startsWith(correctWord.ru.substring(0, 3)) || 
+                     w.ru.includes(correctWord.ru.split(' ')[0])) ||
+                    (mode === 'ru-en' && w.en !== correctWord.en &&
+                     w.en.startsWith(correctWord.en.substring(0, 5)) ||
+                     w.en.includes(correctWord.en.split(' ')[0]))
+                ).slice(0, 4);
+                
+                // Если не нашли достаточно похожих, добавляем случайные
+                wrongAnswers = similarWords.map(w => mode === 'en-ru' ? w.ru : w.en);
+                while (wrongAnswers.length < 4) {
+                    const randomWord = trickyWords[Math.floor(Math.random() * trickyWords.length)];
+                    const wrongAnswer = mode === 'en-ru' ? randomWord.ru : randomWord.en;
+                    if (wrongAnswer !== correctAnswer && !wrongAnswers.includes(wrongAnswer)) {
+                        wrongAnswers.push(wrongAnswer);
+                    }
+                }
+                wrongAnswers = wrongAnswers.slice(0, 4);
             }
             
             // Смешиваем все ответы
@@ -490,11 +779,13 @@
             if (!selectedAnswer || isAnswered) return;
             
             const word = shuffledWords[currentQuestionIndex];
-            const correctAnswer = mode === 'en-ru' ? word.ru : word.en;
+            const currentMode = currentModes[currentQuestionIndex];
+            const correctAnswer = currentMode === 'en-ru' ? word.ru : word.en;
             const isCorrect = selectedAnswer === correctAnswer;
             
             // Помечаем правильный и неправильный ответы
             document.querySelectorAll('.answer-btn').forEach(btn => {
+                btn.classList.add('disabled');
                 if (btn.textContent === correctAnswer) {
                     btn.classList.add('correct');
                 } else if (btn.textContent === selectedAnswer && !isCorrect) {
@@ -503,17 +794,27 @@
                 btn.classList.add('selected');
             });
             
-            // Показываем результат
+            // Обновляем статистику
             if (isCorrect) {
                 score++;
-                scoreEl.textContent = score;
-                resultEl.textContent = '✅ Верно! Молодец!';
+                correctStreak++;
+                
+                // Для 2-й стадии проверяем достижение цели
+                if (currentStage === 2 && score >= totalQuestionsNeeded) {
+                    showCompletionMessage();
+                }
+                
+                resultEl.textContent = currentStage === 1 ? 
+                    '✅ Верно! Отлично!' : 
+                    `✅ Верно! Серия правильных ответов: ${correctStreak}`;
                 resultEl.className = 'result-box result-correct';
             } else {
+                correctStreak = 0;
                 resultEl.textContent = `❌ Неверно! Правильный ответ: ${correctAnswer}`;
                 resultEl.className = 'result-box result-wrong';
             }
             
+            updateScoreDisplay();
             isAnswered = true;
             checkBtn.disabled = true;
             nextBtn.disabled = false;
@@ -523,24 +824,132 @@
         function nextQuestion() {
             currentQuestionIndex++;
             
-            if (currentQuestionIndex >= shuffledWords.length) {
-                // Конец теста
-                currentQuestionIndex = 0;
-                resultEl.textContent = `Тест завершен! Вы правильно ответили на ${score} из ${shuffledWords.length} вопросов. Начинаем заново.`;
-                resultEl.className = 'result-box result-default';
-                score = 0;
-                scoreEl.textContent = score;
+            if (currentStage === 1 && currentQuestionIndex >= shuffledWords.length) {
+                // Завершение 1-й стадии
+                completedStage1 = true;
+                showStage1Completion();
+                return;
+            }
+            
+            if (currentStage === 2 && currentQuestionIndex >= totalQuestionsNeeded) {
+                showCompletionMessage();
+                return;
             }
             
             loadQuestion();
         }
         
-        // Перемешать слова
-        function shuffleWords() {
-            shuffledWords = shuffleArray([...words]);
+        // Показать завершение 1-й стадии
+        function showStage1Completion() {
+            const completionHTML = `
+                <div class="completion-message">
+                    <div class="completion-title">🎉 Поздравляем!</div>
+                    <div class="completion-text">
+                        <p>Ты успешно завершила основной тест! 🌟</p>
+                        <p>Результат: <strong>${score} из ${shuffledWords.length}</strong> правильных ответов</p>
+                        <p>Теперь переходи к сложному тесту! 🔥</p>
+                    </div>
+                    <button onclick="switchStage(2)" style="margin-top: 20px; padding: 15px 30px; font-size: 1.2em; background: #e74c3c; color: white; border: none; border-radius: 10px; cursor: pointer;">
+                        🚀 Начать сложный тест
+                    </button>
+                </div>
+            `;
+            
+            completionSection.innerHTML = completionHTML;
+            completionSection.style.display = 'block';
+            
+            // Скрываем основной интерфейс
+            document.querySelector('.question-box').style.display = 'none';
+            document.querySelector('.answers').style.display = 'none';
+            document.querySelector('.result-box').style.display = 'none';
+            document.querySelector('.controls').style.display = 'none';
+        }
+        
+        // Показать сообщение о завершении
+        function showCompletionMessage() {
+            let completionHTML = '';
+            
+            if (currentStage === 1) {
+                completionHTML = `
+                    <div class="completion-message">
+                        <div class="completion-title">🎉 Умничка, Кариночка!</div>
+                        <div class="completion-text">
+                            <p>Ты успешно выполнила задание! 🥳</p>
+                            <p>Ты моя принцесса! 👑💖</p>
+                            <p>Результат: <strong>${score} из ${shuffledWords.length}</strong> правильных ответов</p>
+                            <p style="font-size: 1.8em; margin-top: 20px;">❤️❤️❤️</p>
+                        </div>
+                        <div class="stats-completion">
+                            <h3>Статистика:</h3>
+                            <p>Правильных ответов: ${score}/${shuffledWords.length}</p>
+                            <p>Процент правильных: ${Math.round((score / shuffledWords.length) * 100)}%</p>
+                            <p>Максимальная серия: ${correctStreak}</p>
+                        </div>
+                        <button onclick="restartStage()" style="margin-top: 20px; padding: 15px 30px; font-size: 1.2em; background: #27ae60; color: white; border: none; border-radius: 10px; cursor: pointer;">
+                            🔄 Пройти ещё раз
+                        </button>
+                    </div>
+                `;
+            } else {
+                completionHTML = `
+                    <div class="completion-message">
+                        <div class="completion-title">🏆 Невероятно! Кариночка!</div>
+                        <div class="completion-text">
+                            <p>Ты прошла сложный тест из 20 вопросов! 🌟</p>
+                            <p>С похожими ответами и меняющимися направлениями!</p>
+                            <p>Ты просто гений! 🧠💫</p>
+                            <p style="font-size: 1.8em; margin-top: 20px;">💖💖💖 Моя умничка! 💖💖💖</p>
+                        </div>
+                        <div class="stats-completion">
+                            <h3>Полная статистика:</h3>
+                            <p>Основной тест: ${completedStage1 ? 'Пройден ✅' : 'Не пройден'}</p>
+                            <p>Сложный тест: Пройден! ✅</p>
+                            <p>Всего правильных ответов: ${score}</p>
+                            <p>Максимальная серия: ${correctStreak}</p>
+                            <p>Ты настоящая чемпионка! 🏅</p>
+                        </div>
+                        <div style="margin-top: 20px; display: flex; gap: 15px; justify-content: center;">
+                            <button onclick="switchStage(1)" style="padding: 15px 25px; font-size: 1.1em; background: #3498db; color: white; border: none; border-radius: 10px; cursor: pointer;">
+                                🔙 Основной тест
+                            </button>
+                            <button onclick="restartStage()" style="padding: 15px 25px; font-size: 1.1em; background: #9b59b6; color: white; border: none; border-radius: 10px; cursor: pointer;">
+                                🔄 Ещё раз сложный
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            completionSection.innerHTML = completionHTML;
+            completionSection.style.display = 'block';
+            
+            // Скрываем основной интерфейс
+            document.querySelector('.question-box').style.display = 'none';
+            document.querySelector('.answers').style.display = 'none';
+            document.querySelector('.result-box').style.display = 'none';
+            document.querySelector('.controls').style.display = 'none';
+        }
+        
+        // Перезапустить стадию
+        function restartStage() {
+            // Показываем основной интерфейс
+            document.querySelector('.question-box').style.display = 'flex';
+            document.querySelector('.answers').style.display = 'grid';
+            document.querySelector('.result-box').style.display = 'flex';
+            document.querySelector('.controls').style.display = 'flex';
+            completionSection.style.display = 'none';
+            
+            switchStage(currentStage);
+        }
+        
+        // Перемешать всё
+        function shuffleAll() {
+            shuffledWords = shuffleArray([...currentWords]);
+            generateQuestionModes();
             currentQuestionIndex = 0;
             score = 0;
-            scoreEl.textContent = score;
+            correctStreak = 0;
+            updateScoreDisplay();
             loadQuestion();
             
             // Анимация кнопки
@@ -551,27 +960,20 @@
             }, 1000);
         }
         
-        // Сменить режим перевода
-        function switchMode() {
-            mode = mode === 'en-ru' ? 'ru-en' : 'en-ru';
-            modeDisplay.textContent = mode === 'en-ru' ? 'EN → RU' : 'RU → EN';
-            currentQuestionIndex = 0;
-            score = 0;
+        // Обновить отображение счёта
+        function updateScoreDisplay() {
             scoreEl.textContent = score;
-            loadQuestion();
-            
-            // Анимация кнопки
-            const originalText = modeBtn.textContent;
-            modeBtn.textContent = mode === 'en-ru' ? '🔄 EN→RU' : '🔄 RU→EN';
-            setTimeout(() => {
-                modeBtn.textContent = originalText;
-            }, 1500);
+            streakEl.textContent = correctStreak;
         }
         
         // Обновить прогресс-бар
         function updateProgressBar() {
-            const progress = ((currentQuestionIndex + 1) / shuffledWords.length) * 100;
+            const progress = currentStage === 1 
+                ? ((currentQuestionIndex + 1) / shuffledWords.length) * 100
+                : (score / totalQuestionsNeeded) * 100;
+            
             progressBar.style.width = `${progress}%`;
+            progressLabel.textContent = `${Math.round(progress)}%`;
         }
         
         // Вспомогательная функция для перемешивания массива
