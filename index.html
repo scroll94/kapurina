@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Тест английских слов для Кариночки</title>
+    <title>Карточки для Кариночки</title>
     <style>
         * {
             margin: 0;
@@ -11,354 +11,284 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             padding: 20px;
-            color: #333;
         }
-        
+
         .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
         }
-        
+
         h1 {
-            color: #2c3e50;
-            text-align: center;
-            margin-bottom: 10px;
+            color: white;
+            margin-bottom: 20px;
             font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
-        
+
         .subtitle {
-            text-align: center;
-            color: #7f8c8d;
+            color: rgba(255,255,255,0.9);
             margin-bottom: 30px;
             font-size: 1.2em;
         }
-        
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
+
+        .card-container {
+            perspective: 1500px;
             margin-bottom: 30px;
+            cursor: pointer;
         }
-        
-        .stat-box {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 12px;
+
+        .card {
+            position: relative;
+            width: 100%;
+            height: 300px;
             text-align: center;
-            border: 2px solid #e9ecef;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+            border-radius: 20px;
+            box-shadow: 0 20px 30px rgba(0,0,0,0.3);
         }
-        
+
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            font-size: 1.8em;
+            font-weight: bold;
+            word-break: break-word;
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: 5px solid rgba(255,255,255,0.3);
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            transform: rotateY(180deg);
+            border: 5px solid rgba(255,255,255,0.3);
+        }
+
+        .stats {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .stat-box {
+            flex: 1;
+        }
+
         .stat-label {
-            display: block;
-            color: #6c757d;
             font-size: 0.9em;
-            margin-bottom: 8px;
+            opacity: 0.9;
+            margin-bottom: 5px;
         }
-        
+
         .stat-value {
             font-size: 2em;
             font-weight: bold;
-            color: #2c3e50;
         }
-        
-        #score-value {
-            color: #27ae60;
-        }
-        
-        #mode-display {
-            background: #3498db;
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 1em;
-        }
-        
-        .question-box {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-            padding: 30px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            text-align: center;
-            min-height: 160px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        #question {
-            font-size: 2em;
+
+        .mode-badge {
+            background: rgba(255,255,255,0.3);
+            padding: 8px 20px;
+            border-radius: 50px;
             font-weight: bold;
-            line-height: 1.4;
+            margin: 15px 0;
+            display: inline-block;
+            color: white;
+            border: 2px solid white;
         }
-        
-        .answers {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        
-        .answer-btn {
-            padding: 20px;
-            border: 3px solid #ddd;
-            background: white;
-            border-radius: 12px;
-            cursor: pointer;
-            text-align: left;
-            font-size: 1.2em;
-            transition: all 0.2s;
-            font-weight: 500;
-        }
-        
-        .answer-btn:hover {
-            background: #f8f9fa;
-            border-color: #aaa;
-            transform: translateY(-2px);
-        }
-        
-        .answer-btn.selected {
-            border-color: #3498db;
-            background: #ebf5fb;
-        }
-        
-        .answer-btn.correct {
-            border-color: #27ae60;
-            background: #d5f4e6;
-        }
-        
-        .answer-btn.wrong {
-            border-color: #e74c3c;
-            background: #fadbd8;
-        }
-        
-        .answer-btn.disabled {
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-        
+
         .controls {
             display: flex;
-            flex-wrap: wrap;
             gap: 15px;
             justify-content: center;
-            margin-bottom: 30px;
+            margin-top: 20px;
         }
-        
-        button {
-            padding: 16px 32px;
+
+        .btn {
+            padding: 15px 30px;
             border: none;
-            border-radius: 10px;
-            cursor: pointer;
+            border-radius: 50px;
             font-size: 1.1em;
-            font-weight: 600;
+            font-weight: bold;
+            cursor: pointer;
             transition: all 0.3s;
+            background: white;
+            color: #2c3e50;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
-        
-        #check-btn {
-            background: #27ae60;
-            color: white;
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
         }
-        
-        #check-btn:hover:not(:disabled) {
-            background: #219653;
-            transform: translateY(-2px);
+
+        .btn:active {
+            transform: translateY(0);
         }
-        
-        #next-btn {
-            background: #3498db;
-            color: white;
-        }
-        
-        #next-btn:hover:not(:disabled) {
-            background: #2980b9;
-            transform: translateY(-2px);
-        }
-        
-        #shuffle-btn {
+
+        .btn.shuffle {
             background: #9b59b6;
             color: white;
         }
-        
-        #shuffle-btn:hover {
-            background: #8e44ad;
-            transform: translateY(-2px);
+
+        .btn.mode {
+            background: #e67e22;
+            color: white;
         }
-        
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        .result-box {
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            text-align: center;
-            font-size: 1.3em;
-            font-weight: bold;
-            min-height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .result-default {
-            background: #f8f9fa;
-            color: #495057;
-            border: 3px dashed #dee2e6;
-        }
-        
-        .result-correct {
-            background: #d4edda;
-            color: #155724;
-            border: 3px solid #c3e6cb;
-        }
-        
-        .result-wrong {
-            background: #f8d7da;
-            color: #721c24;
-            border: 3px solid #f5c6cb;
-        }
-        
-        .completion-message {
-            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
-            color: #2c3e50;
-            padding: 40px;
-            border-radius: 15px;
-            text-align: center;
-            margin: 30px 0;
-            border: 5px solid #ff9a9e;
-        }
-        
-        .completion-title {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            color: #e74c3c;
-        }
-        
-        .completion-text {
-            font-size: 1.5em;
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-        
+
         .progress-container {
-            height: 12px;
-            background: #ecf0f1;
-            border-radius: 6px;
+            height: 8px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 4px;
+            margin: 30px 0 20px;
             overflow: hidden;
-            margin-bottom: 30px;
         }
-        
+
         .progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
             width: 0%;
             transition: width 0.5s ease;
         }
-        
+
+        .hint {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1em;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+        }
+
+        .hint i {
+            font-style: normal;
+            margin-right: 10px;
+        }
+
         footer {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 25px;
-            border-top: 2px solid #eee;
-            color: #7f8c8d;
+            color: rgba(255,255,255,0.8);
+            margin-top: 30px;
             font-size: 0.9em;
         }
-        
+
         footer a {
-            color: #3498db;
+            color: white;
             text-decoration: none;
             font-weight: bold;
         }
-        
-        @media (max-width: 768px) {
-            .answers {
-                grid-template-columns: 1fr;
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                height: 250px;
             }
             
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
+            .card-front, .card-back {
+                font-size: 1.4em;
             }
             
             .controls {
                 flex-direction: column;
             }
             
-            button {
-                width: 100%;
-            }
-            
-            #question {
-                font-size: 1.5em;
+            .stats {
+                flex-direction: column;
+                gap: 15px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📚 Тест для Кариночки ❤️</h1>
-        <p class="subtitle">20 новых слов. Направления чередуются. Нажми "Перемешать" для рандома.</p>
-        
+        <h1>🎴 Карточки для Кариночки</h1>
+        <p class="subtitle">Кликни на карточку, чтобы увидеть перевод ❤️</p>
+
+        <div class="mode-badge" id="mode-display">
+            🇷🇺 → 🇬🇧 Русский → Английский
+        </div>
+
         <div class="stats">
             <div class="stat-box">
-                <span class="stat-label">Вопрос</span>
-                <span class="stat-value" id="current">1</span>/<span id="total">20</span>
+                <div class="stat-label">Карточка</div>
+                <div class="stat-value" id="current">1</div>
             </div>
             <div class="stat-box">
-                <span class="stat-label">Правильно</span>
-                <span class="stat-value" id="score-value">0</span>
-            </div>
-            <div class="stat-box">
-                <span class="stat-label">Режим</span>
-                <div id="mode-display">EN → RU</div>
+                <div class="stat-label">Всего</div>
+                <div class="stat-value" id="total">20</div>
             </div>
         </div>
-        
+
         <div class="progress-container">
             <div class="progress-bar" id="progress-bar"></div>
         </div>
-        
-        <div class="question-box">
-            <div id="question">Загрузка...</div>
+
+        <div class="card-container" onclick="flipCard()">
+            <div class="card" id="card">
+                <div class="card-front" id="front">
+                    загрузка...
+                </div>
+                <div class="card-back" id="back">
+                    ...
+                </div>
+            </div>
         </div>
-        
-        <div class="answers" id="answers-container">
-            <!-- Ответы будут здесь -->
-        </div>
-        
-        <div class="result-box result-default" id="result">
-            Выберите вариант ответа
-        </div>
-        
+
         <div class="controls">
-            <button id="check-btn">✅ Проверить</button>
-            <button id="next-btn" disabled>➡️ Дальше</button>
-            <button id="shuffle-btn">🔀 Перемешать</button>
+            <button class="btn" onclick="prevCard()">◀ Предыдущая</button>
+            <button class="btn" onclick="nextCard()">Следующая ▶</button>
         </div>
-        
-        <div id="completion-section" style="display: none;">
-            <!-- Сюда будет вставляться сообщение о завершении -->
+
+        <div class="controls">
+            <button class="btn shuffle" onclick="shuffleCards()">🔀 Перемешать</button>
+            <button class="btn mode" onclick="switchMode()">
+                <span id="mode-btn-text">🇷🇺→🇬🇧 RU→EN</span>
+            </button>
         </div>
-        
+
+        <div class="hint">
+            <i>💡</i> Кликни по карточке — она перевернётся! Сейчас <span id="hint-mode">русское слово</span> спереди, перевод сзади.
+        </div>
+
         <footer>
-            <p>Слова для изучения • <a href="https://github.com/scroll94/kapurina" target="_blank">GitHub</a> • Для Кариночки 💖</p>
+            <p>Для Кариночки с любовью ❤️ • <a href="https://github.com/scroll94/kapurina" target="_blank">GitHub</a></p>
         </footer>
     </div>
 
     <script>
-        // 20 новых слов
+        // 20 слов
         const words = [
             { en: "sleep rough", ru: "спать на улице" },
             { en: "grubby", ru: "грязный" },
@@ -382,217 +312,135 @@
             { en: "vicious circle", ru: "замкнутый круг" }
         ];
 
-        // Переменные
+        // Состояние
         let currentIndex = 0;
-        let score = 0;
-        let selectedAnswer = null;
-        let isAnswered = false;
+        let mode = 'ru-en'; // 'ru-en' (русский вопрос) или 'en-ru' (английский вопрос)
+        let isFlipped = false;
         let shuffledWords = [...words];
-        
-        // DOM элементы
-        const questionEl = document.getElementById('question');
-        const answersContainer = document.getElementById('answers-container');
-        const resultEl = document.getElementById('result');
+
+        // Элементы
+        const card = document.getElementById('card');
+        const front = document.getElementById('front');
+        const back = document.getElementById('back');
         const currentEl = document.getElementById('current');
-        const scoreEl = document.getElementById('score-value');
         const totalEl = document.getElementById('total');
         const modeDisplay = document.getElementById('mode-display');
+        const modeBtnText = document.getElementById('mode-btn-text');
+        const hintMode = document.getElementById('hint-mode');
         const progressBar = document.getElementById('progress-bar');
-        const checkBtn = document.getElementById('check-btn');
-        const nextBtn = document.getElementById('next-btn');
-        const shuffleBtn = document.getElementById('shuffle-btn');
-        const completionSection = document.getElementById('completion-section');
-        
+
         // Инициализация
         function init() {
             totalEl.textContent = words.length;
-            shuffleWords();
-            loadQuestion();
-            
-            checkBtn.addEventListener('click', checkAnswer);
-            nextBtn.addEventListener('click', nextQuestion);
-            shuffleBtn.addEventListener('click', shuffleWords);
+            shuffleCards();
         }
-        
-        // Загрузка вопроса
-        function loadQuestion() {
+
+        // Показать текущую карточку
+        function showCard() {
             const word = shuffledWords[currentIndex];
             
-            // Чередуем направления
-            const mode = currentIndex % 2 === 0 ? 'en-ru' : 'ru-en';
-            questionEl.textContent = mode === 'en-ru' ? word.en : word.ru;
-            modeDisplay.textContent = mode === 'en-ru' ? 'EN → RU' : 'RU → EN';
-            
-            // Генерируем ответы
-            generateAnswers(word, mode);
-            
-            // Сброс
-            selectedAnswer = null;
-            isAnswered = false;
-            resultEl.textContent = 'Выберите вариант ответа';
-            resultEl.className = 'result-box result-default';
-            checkBtn.disabled = false;
-            nextBtn.disabled = true;
-            
+            if (mode === 'ru-en') {
+                // Русский вопрос, английский ответ
+                front.textContent = word.ru;
+                back.textContent = word.en;
+                modeDisplay.textContent = '🇷🇺 → 🇬🇧 Русский → Английский';
+                modeBtnText.textContent = '🇬🇧→🇷🇺 EN→RU';
+                hintMode.textContent = 'русское слово';
+            } else {
+                // Английский вопрос, русский ответ
+                front.textContent = word.en;
+                back.textContent = word.ru;
+                modeDisplay.textContent = '🇬🇧 → 🇷🇺 Английский → Русский';
+                modeBtnText.textContent = '🇷🇺→🇬🇧 RU→EN';
+                hintMode.textContent = 'английское слово';
+            }
+
+            // Если карточка перевёрнута, показываем ответ
+            if (isFlipped) {
+                card.classList.add('flipped');
+            } else {
+                card.classList.remove('flipped');
+            }
+
+            // Обновляем счётчик
             currentEl.textContent = currentIndex + 1;
-            updateProgressBar();
-        }
-        
-        // Генерация ответов
-        function generateAnswers(correctWord, mode) {
-            answersContainer.innerHTML = '';
             
-            const correctAnswer = mode === 'en-ru' ? correctWord.ru : correctWord.en;
-            
-            // Неправильные ответы
-            let wrongAnswers = [];
-            const otherWords = shuffledWords.filter(w => w !== correctWord);
-            
-            for (let i = 0; i < 3; i++) {
-                if (otherWords[i]) {
-                    wrongAnswers.push(mode === 'en-ru' ? otherWords[i].ru : otherWords[i].en);
-                }
-            }
-            
-            // Все ответы
-            let allAnswers = [correctAnswer, ...wrongAnswers];
-            allAnswers = shuffleArray(allAnswers);
-            
-            allAnswers.forEach(answer => {
-                const button = document.createElement('button');
-                button.className = 'answer-btn';
-                button.textContent = answer;
-                
-                button.addEventListener('click', () => {
-                    if (isAnswered) return;
-                    
-                    document.querySelectorAll('.answer-btn').forEach(btn => {
-                        btn.classList.remove('selected');
-                    });
-                    
-                    button.classList.add('selected');
-                    selectedAnswer = answer;
-                });
-                
-                answersContainer.appendChild(button);
-            });
-        }
-        
-        // Проверка ответа
-        function checkAnswer() {
-            if (!selectedAnswer || isAnswered) return;
-            
-            const word = shuffledWords[currentIndex];
-            const mode = modeDisplay.textContent === 'EN → RU' ? 'en-ru' : 'ru-en';
-            const correctAnswer = mode === 'en-ru' ? word.ru : word.en;
-            const isCorrect = selectedAnswer === correctAnswer;
-            
-            document.querySelectorAll('.answer-btn').forEach(btn => {
-                btn.classList.add('disabled');
-                if (btn.textContent === correctAnswer) {
-                    btn.classList.add('correct');
-                } else if (btn.textContent === selectedAnswer && !isCorrect) {
-                    btn.classList.add('wrong');
-                }
-            });
-            
-            if (isCorrect) {
-                score++;
-                scoreEl.textContent = score;
-                resultEl.textContent = '✅ Верно! ❤️';
-                resultEl.className = 'result-box result-correct';
-            } else {
-                resultEl.textContent = `❌ Неверно! Правильно: ${correctAnswer}`;
-                resultEl.className = 'result-box result-wrong';
-            }
-            
-            isAnswered = true;
-            checkBtn.disabled = true;
-            nextBtn.disabled = false;
-            
-            // Проверка завершения
-            if (currentIndex === shuffledWords.length - 1 && isCorrect) {
-                setTimeout(() => showCompletion(), 1000);
-            }
-        }
-        
-        // Следующий вопрос
-        function nextQuestion() {
-            if (currentIndex < shuffledWords.length - 1) {
-                currentIndex++;
-                loadQuestion();
-            } else {
-                showCompletion();
-            }
-        }
-        
-        // Завершение теста
-        function showCompletion() {
-            const percentage = Math.round((score / shuffledWords.length) * 100);
-            
-            completionSection.innerHTML = `
-                <div class="completion-message">
-                    <div class="completion-title">🎉 Умничка, Кариночка!</div>
-                    <div class="completion-text">
-                        <p>Ты выполнила задание! 🥳</p>
-                        <p>Ты моя принцесса! 👑💖</p>
-                        <p>Результат: <strong>${score} из ${shuffledWords.length}</strong> (${percentage}%)</p>
-                        <p style="font-size: 1.8em; margin-top: 20px;">❤️❤️❤️</p>
-                    </div>
-                    <button onclick="restart()" style="margin-top: 20px; padding: 15px 30px; font-size: 1.2em; background: #27ae60; color: white; border: none; border-radius: 10px; cursor: pointer;">
-                        🔄 Пройти ещё раз
-                    </button>
-                </div>
-            `;
-            
-            completionSection.style.display = 'block';
-            document.querySelector('.question-box').style.display = 'none';
-            document.querySelector('.answers').style.display = 'none';
-            document.querySelector('.result-box').style.display = 'none';
-            document.querySelector('.controls').style.display = 'none';
-        }
-        
-        // Перезапуск
-        function restart() {
-            completionSection.style.display = 'none';
-            document.querySelector('.question-box').style.display = 'flex';
-            document.querySelector('.answers').style.display = 'grid';
-            document.querySelector('.result-box').style.display = 'flex';
-            document.querySelector('.controls').style.display = 'flex';
-            
-            shuffleWords();
-        }
-        
-        // Перемешать
-        function shuffleWords() {
-            shuffledWords = shuffleArray([...words]);
-            currentIndex = 0;
-            score = 0;
-            scoreEl.textContent = score;
-            loadQuestion();
-            
-            shuffleBtn.textContent = '🔀 Перемешано!';
-            setTimeout(() => {
-                shuffleBtn.textContent = '🔀 Перемешать';
-            }, 1000);
-        }
-        
-        // Прогресс-бар
-        function updateProgressBar() {
+            // Обновляем прогресс
             const progress = ((currentIndex + 1) / shuffledWords.length) * 100;
             progressBar.style.width = `${progress}%`;
         }
-        
-        // Перемешивание массива
-        function shuffleArray(array) {
-            const newArray = [...array];
-            for (let i = newArray.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+
+        // Перевернуть карточку
+        function flipCard() {
+            isFlipped = !isFlipped;
+            if (isFlipped) {
+                card.classList.add('flipped');
+            } else {
+                card.classList.remove('flipped');
             }
-            return newArray;
         }
-        
+
+        // Предыдущая карточка
+        function prevCard() {
+            currentIndex--;
+            if (currentIndex < 0) {
+                currentIndex = shuffledWords.length - 1;
+            }
+            isFlipped = false;
+            card.classList.remove('flipped');
+            showCard();
+        }
+
+        // Следующая карточка
+        function nextCard() {
+            currentIndex = (currentIndex + 1) % shuffledWords.length;
+            isFlipped = false;
+            card.classList.remove('flipped');
+            showCard();
+        }
+
+        // Перемешать
+        function shuffleCards() {
+            shuffledWords = [...words];
+            for (let i = shuffledWords.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffledWords[i], shuffledWords[j]] = [shuffledWords[j], shuffledWords[i]];
+            }
+            currentIndex = 0;
+            isFlipped = false;
+            card.classList.remove('flipped');
+            showCard();
+
+            // Анимация
+            const btn = event?.target;
+            if (btn) {
+                btn.textContent = '🔀 Перемешано!';
+                setTimeout(() => {
+                    btn.textContent = '🔀 Перемешать';
+                }, 1000);
+            }
+        }
+
+        // Сменить режим
+        function switchMode() {
+            // Меняем режим
+            if (mode === 'ru-en') {
+                mode = 'en-ru'; // было русский вопрос, стало английский вопрос
+            } else {
+                mode = 'ru-en'; // было английский вопрос, стало русский вопрос
+            }
+            
+            // Обновляем карточку с новым режимом
+            showCard();
+
+            // Анимация кнопки
+            const btn = event?.target;
+            if (btn) {
+                const originalText = mode === 'ru-en' ? '🇬🇧→🇷🇺 EN→RU' : '🇷🇺→🇬🇧 RU→EN';
+                btn.querySelector('span').textContent = originalText;
+            }
+        }
+
         // Запуск
         document.addEventListener('DOMContentLoaded', init);
     </script>
