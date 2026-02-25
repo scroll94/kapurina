@@ -22,7 +22,7 @@
         }
 
         .container {
-            max-width: 600px;
+            max-width: 500px;
             width: 100%;
             text-align: center;
         }
@@ -34,15 +34,19 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
-        .subtitle {
-            color: rgba(255,255,255,0.9);
-            margin-bottom: 30px;
+        .mode-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 10px;
+            border-radius: 50px;
+            color: white;
             font-size: 1.2em;
+            margin-bottom: 20px;
+            border: 2px solid white;
         }
 
         .card-container {
             perspective: 1500px;
-            margin-bottom: 30px;
+            margin: 20px 0;
             cursor: pointer;
         }
 
@@ -50,8 +54,7 @@
             position: relative;
             width: 100%;
             height: 300px;
-            text-align: center;
-            transition: transform 0.8s;
+            transition: transform 0.6s;
             transform-style: preserve-3d;
             border-radius: 20px;
             box-shadow: 0 20px 30px rgba(0,0,0,0.3);
@@ -70,68 +73,35 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 30px;
+            padding: 20px;
             font-size: 1.8em;
             font-weight: bold;
-            word-break: break-word;
+            text-align: center;
+            color: white;
         }
 
         .card-front {
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
             border: 5px solid rgba(255,255,255,0.3);
         }
 
         .card-back {
             background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            color: white;
             transform: rotateY(180deg);
             border: 5px solid rgba(255,255,255,0.3);
         }
 
-        .stats {
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
+        .counter {
             color: white;
-            border: 2px solid rgba(255,255,255,0.3);
-        }
-
-        .stat-box {
-            flex: 1;
-        }
-
-        .stat-label {
-            font-size: 0.9em;
-            opacity: 0.9;
-            margin-bottom: 5px;
-        }
-
-        .stat-value {
-            font-size: 2em;
-            font-weight: bold;
-        }
-
-        .mode-badge {
-            background: rgba(255,255,255,0.3);
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-weight: bold;
-            margin: 15px 0;
-            display: inline-block;
-            color: white;
-            border: 2px solid white;
+            font-size: 1.2em;
+            margin: 20px 0;
         }
 
         .controls {
             display: flex;
             gap: 15px;
             justify-content: center;
-            margin-top: 20px;
+            margin: 20px 0;
         }
 
         .btn {
@@ -141,9 +111,9 @@
             font-size: 1.1em;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s;
             background: white;
             color: #2c3e50;
+            transition: all 0.3s;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
@@ -152,66 +122,17 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.3);
         }
 
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .btn.shuffle {
-            background: #9b59b6;
-            color: white;
-        }
-
         .btn.mode {
             background: #e67e22;
             color: white;
         }
 
-        .progress-container {
-            height: 8px;
-            background: rgba(255,255,255,0.3);
-            border-radius: 4px;
-            margin: 30px 0 20px;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
-            width: 0%;
-            transition: width 0.5s ease;
-        }
-
-        .hint {
-            color: rgba(255,255,255,0.9);
-            font-size: 1.1em;
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(0,0,0,0.2);
-            border-radius: 10px;
-        }
-
-        .hint i {
-            font-style: normal;
-            margin-right: 10px;
-        }
-
         footer {
             color: rgba(255,255,255,0.8);
             margin-top: 30px;
-            font-size: 0.9em;
         }
 
-        footer a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 600px) {
+        @media (max-width: 500px) {
             .card {
                 height: 250px;
             }
@@ -219,76 +140,41 @@
             .card-front, .card-back {
                 font-size: 1.4em;
             }
-            
-            .controls {
-                flex-direction: column;
-            }
-            
-            .stats {
-                flex-direction: column;
-                gap: 15px;
-            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🎴 Карточки для Кариночки</h1>
-        <p class="subtitle">Кликни на карточку, чтобы увидеть перевод ❤️</p>
-
-        <div class="mode-badge" id="mode-display">
-            🇷🇺 → 🇬🇧 Русский → Английский
-        </div>
-
-        <div class="stats">
-            <div class="stat-box">
-                <div class="stat-label">Карточка</div>
-                <div class="stat-value" id="current">1</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-label">Всего</div>
-                <div class="stat-value" id="total">20</div>
-            </div>
-        </div>
-
-        <div class="progress-container">
-            <div class="progress-bar" id="progress-bar"></div>
-        </div>
-
+        <h1>🎴 Карточки</h1>
+        
+        <div class="mode-badge" id="modeDisplay">🇷🇺 Русский → 🇬🇧 Английский</div>
+        
         <div class="card-container" onclick="flipCard()">
             <div class="card" id="card">
-                <div class="card-front" id="front">
-                    загрузка...
-                </div>
-                <div class="card-back" id="back">
-                    ...
-                </div>
+                <div class="card-front" id="front">спать на улице</div>
+                <div class="card-back" id="back">sleep rough</div>
             </div>
         </div>
-
+        
+        <div class="counter" id="counter">1 / 20</div>
+        
         <div class="controls">
-            <button class="btn" onclick="prevCard()">◀ Предыдущая</button>
-            <button class="btn" onclick="nextCard()">Следующая ▶</button>
+            <button class="btn" onclick="prevCard()">◀ Назад</button>
+            <button class="btn" onclick="nextCard()">Вперед ▶</button>
         </div>
-
+        
         <div class="controls">
-            <button class="btn shuffle" onclick="shuffleCards()">🔀 Перемешать</button>
-            <button class="btn mode" onclick="switchMode()">
-                <span id="mode-btn-text">🇷🇺→🇬🇧 RU→EN</span>
+            <button class="btn mode" onclick="switchMode()" id="modeBtn">
+                🔄 Поменять (RU→EN)
             </button>
         </div>
-
-        <div class="hint">
-            <i>💡</i> Кликни по карточке — она перевернётся! Сейчас <span id="hint-mode">русское слово</span> спереди, перевод сзади.
-        </div>
-
+        
         <footer>
-            <p>Для Кариночки с любовью ❤️ • <a href="https://github.com/scroll94/kapurina" target="_blank">GitHub</a></p>
+            ❤️ Для Кариночки
         </footer>
     </div>
 
     <script>
-        // 20 слов
         const words = [
             { en: "sleep rough", ru: "спать на улице" },
             { en: "grubby", ru: "грязный" },
@@ -312,137 +198,76 @@
             { en: "vicious circle", ru: "замкнутый круг" }
         ];
 
-        // Состояние
-        let currentIndex = 0;
-        let mode = 'ru-en'; // 'ru-en' (русский вопрос) или 'en-ru' (английский вопрос)
+        let index = 0;
+        let mode = 'ru-en'; // ru-en (русский вопрос) или en-ru (английский вопрос)
         let isFlipped = false;
-        let shuffledWords = [...words];
+        let shuffled = [...words];
 
-        // Элементы
         const card = document.getElementById('card');
         const front = document.getElementById('front');
         const back = document.getElementById('back');
-        const currentEl = document.getElementById('current');
-        const totalEl = document.getElementById('total');
-        const modeDisplay = document.getElementById('mode-display');
-        const modeBtnText = document.getElementById('mode-btn-text');
-        const hintMode = document.getElementById('hint-mode');
-        const progressBar = document.getElementById('progress-bar');
+        const counter = document.getElementById('counter');
+        const modeDisplay = document.getElementById('modeDisplay');
+        const modeBtn = document.getElementById('modeBtn');
 
-        // Инициализация
-        function init() {
-            totalEl.textContent = words.length;
-            shuffleCards();
-        }
-
-        // Показать текущую карточку
         function showCard() {
-            const word = shuffledWords[currentIndex];
+            const word = shuffled[index];
             
             if (mode === 'ru-en') {
-                // Русский вопрос, английский ответ
                 front.textContent = word.ru;
                 back.textContent = word.en;
-                modeDisplay.textContent = '🇷🇺 → 🇬🇧 Русский → Английский';
-                modeBtnText.textContent = '🇬🇧→🇷🇺 EN→RU';
-                hintMode.textContent = 'русское слово';
+                modeDisplay.textContent = '🇷🇺 Русский → 🇬🇧 Английский';
+                modeBtn.textContent = '🔄 Поменять (EN→RU)';
             } else {
-                // Английский вопрос, русский ответ
                 front.textContent = word.en;
                 back.textContent = word.ru;
-                modeDisplay.textContent = '🇬🇧 → 🇷🇺 Английский → Русский';
-                modeBtnText.textContent = '🇷🇺→🇬🇧 RU→EN';
-                hintMode.textContent = 'английское слово';
+                modeDisplay.textContent = '🇬🇧 Английский → 🇷🇺 Русский';
+                modeBtn.textContent = '🔄 Поменять (RU→EN)';
             }
-
-            // Если карточка перевёрнута, показываем ответ
+            
             if (isFlipped) {
                 card.classList.add('flipped');
             } else {
                 card.classList.remove('flipped');
             }
-
-            // Обновляем счётчик
-            currentEl.textContent = currentIndex + 1;
             
-            // Обновляем прогресс
-            const progress = ((currentIndex + 1) / shuffledWords.length) * 100;
-            progressBar.style.width = `${progress}%`;
+            counter.textContent = `${index + 1} / ${shuffled.length}`;
         }
 
-        // Перевернуть карточку
         function flipCard() {
             isFlipped = !isFlipped;
-            if (isFlipped) {
-                card.classList.add('flipped');
-            } else {
-                card.classList.remove('flipped');
-            }
+            card.classList.toggle('flipped');
         }
 
-        // Предыдущая карточка
-        function prevCard() {
-            currentIndex--;
-            if (currentIndex < 0) {
-                currentIndex = shuffledWords.length - 1;
-            }
-            isFlipped = false;
-            card.classList.remove('flipped');
-            showCard();
-        }
-
-        // Следующая карточка
         function nextCard() {
-            currentIndex = (currentIndex + 1) % shuffledWords.length;
+            index = (index + 1) % shuffled.length;
             isFlipped = false;
             card.classList.remove('flipped');
             showCard();
         }
 
-        // Перемешать
-        function shuffleCards() {
-            shuffledWords = [...words];
-            for (let i = shuffledWords.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [shuffledWords[i], shuffledWords[j]] = [shuffledWords[j], shuffledWords[i]];
-            }
-            currentIndex = 0;
+        function prevCard() {
+            index--;
+            if (index < 0) index = shuffled.length - 1;
             isFlipped = false;
             card.classList.remove('flipped');
             showCard();
-
-            // Анимация
-            const btn = event?.target;
-            if (btn) {
-                btn.textContent = '🔀 Перемешано!';
-                setTimeout(() => {
-                    btn.textContent = '🔀 Перемешать';
-                }, 1000);
-            }
         }
 
-        // Сменить режим
         function switchMode() {
-            // Меняем режим
-            if (mode === 'ru-en') {
-                mode = 'en-ru'; // было русский вопрос, стало английский вопрос
-            } else {
-                mode = 'ru-en'; // было английский вопрос, стало русский вопрос
-            }
-            
-            // Обновляем карточку с новым режимом
+            mode = mode === 'ru-en' ? 'en-ru' : 'ru-en';
+            isFlipped = false;
+            card.classList.remove('flipped');
             showCard();
-
-            // Анимация кнопки
-            const btn = event?.target;
-            if (btn) {
-                const originalText = mode === 'ru-en' ? '🇬🇧→🇷🇺 EN→RU' : '🇷🇺→🇬🇧 RU→EN';
-                btn.querySelector('span').textContent = originalText;
-            }
         }
 
-        // Запуск
-        document.addEventListener('DOMContentLoaded', init);
+        // Перемешиваем при загрузке
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        
+        showCard();
     </script>
 </body>
 </html>
