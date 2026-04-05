@@ -1,273 +1,538 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Карточки для Кариночки</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Карточки для любимой Кариночки 💖 Органика</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(145deg, #fff0f5 0%, #ffe4ed 100%);
+      font-family: 'Segoe UI', 'Quicksand', system-ui, -apple-system, 'Roboto', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem 1rem 2rem;
+    }
 
-        .container {
-            max-width: 500px;
-            width: 100%;
-            text-align: center;
-        }
+    .app-container {
+      max-width: 650px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-        h1 {
-            color: white;
-            margin-bottom: 20px;
-            font-size: 2.5em;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
+    .cute-title {
+      font-size: 1.7rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ff3b6f, #ff8aa1);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 8px rgba(255, 75, 110, 0.15);
+      margin-bottom: 0.25rem;
+      text-align: center;
+    }
 
-        .mode-badge {
-            background: rgba(255,255,255,0.2);
-            padding: 10px;
-            border-radius: 50px;
-            color: white;
-            font-size: 1.2em;
-            margin-bottom: 20px;
-            border: 2px solid white;
-        }
+    .sub {
+      font-size: 0.9rem;
+      color: #ff7c9e;
+      background: #fff0f3;
+      padding: 0.2rem 1rem;
+      border-radius: 40px;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
 
-        .card-container {
-            perspective: 1500px;
-            margin: 20px 0;
-            cursor: pointer;
-        }
+    .card-scene {
+      width: 100%;
+      max-width: 420px;
+      margin: 1rem auto;
+      perspective: 1200px;
+      cursor: pointer;
+    }
 
-        .card {
-            position: relative;
-            width: 100%;
-            height: 300px;
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-            border-radius: 20px;
-            box-shadow: 0 20px 30px rgba(0,0,0,0.3);
-        }
+    .card {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background: transparent;
+      position: relative;
+    }
 
-        .card.flipped {
-            transform: rotateY(180deg);
-        }
+    .inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.65s cubic-bezier(0.23, 1, 0.32, 1);
+      transform-style: preserve-3d;
+      border-radius: 32px;
+      box-shadow: 0 20px 30px -12px rgba(255, 50, 100, 0.25), 0 8px 12px rgba(0,0,0,0.05);
+    }
 
-        .card-front, .card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            font-size: 1.8em;
-            font-weight: bold;
-            text-align: center;
-            color: white;
-        }
+    .flipped {
+      transform: rotateY(180deg);
+    }
 
-        .card-front {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            border: 5px solid rgba(255,255,255,0.3);
-        }
+    .front, .back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 1.2rem;
+      box-sizing: border-box;
+      font-weight: 600;
+      text-align: center;
+      word-break: break-word;
+      overflow-y: auto;
+    }
 
-        .card-back {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            transform: rotateY(180deg);
-            border: 5px solid rgba(255,255,255,0.3);
-        }
+    .front {
+      background: linear-gradient(135deg, #ffffff 0%, #fff5f8 100%);
+      color: #cc3366;
+      border: 2px solid #ffb7c7;
+      box-shadow: inset 0 1px 4px rgba(255,255,255,0.8), 0 4px 12px rgba(255,105,130,0.2);
+      transform: rotateY(0deg);
+    }
 
-        .counter {
-            color: white;
-            font-size: 1.2em;
-            margin: 20px 0;
-        }
+    .back {
+      background: linear-gradient(145deg, #ff2e6c, #ff4d8a);
+      color: #fff9fb;
+      transform: rotateY(180deg);
+      box-shadow: 0 8px 18px rgba(255, 50, 100, 0.3);
+      border: 1px solid rgba(255,255,200,0.4);
+    }
 
-        .controls {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin: 20px 0;
-        }
+    .front-text, .back-text {
+      font-size: 1.1rem;
+      line-height: 1.45;
+      font-weight: 600;
+      max-width: 100%;
+    }
 
-        .btn {
-            padding: 15px 30px;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.1em;
-            font-weight: bold;
-            cursor: pointer;
-            background: white;
-            color: #2c3e50;
-            transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
+    .front-text {
+      color: #d9366e;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
 
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-        }
+    .back-text {
+      color: white;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
 
-        .btn.mode {
-            background: #e67e22;
-            color: white;
-        }
+    .emoji-deco {
+      font-size: 1.5rem;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    }
 
-        footer {
-            color: rgba(255,255,255,0.8);
-            margin-top: 30px;
-        }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin: 1.5rem 0 0.8rem;
+    }
 
-        @media (max-width: 500px) {
-            .card {
-                height: 250px;
-            }
-            
-            .card-front, .card-back {
-                font-size: 1.4em;
-            }
-        }
-    </style>
+    button {
+      background: #ff5982;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 60px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 4px 8px rgba(255, 60, 100, 0.3);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: inherit;
+    }
+
+    button:active {
+      transform: scale(0.96);
+      background: #ff3a6f;
+    }
+
+    button:hover {
+      background: #ff3f72;
+      transform: translateY(-2px);
+    }
+
+    .stats-panel {
+      margin-top: 20px;
+      background: rgba(255, 240, 245, 0.8);
+      backdrop-filter: blur(4px);
+      padding: 8px 18px;
+      border-radius: 60px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #c43b6b;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      border: 1px solid #ffbfcf;
+    }
+
+    .mode-indicator {
+      background: #ffebf0;
+      border-radius: 30px;
+      padding: 5px 16px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #f23b73;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    footer {
+      margin-top: 24px;
+      font-size: 0.7rem;
+      color: #ff98b3;
+      text-align: center;
+    }
+
+    @media (max-width: 480px) {
+      .front-text, .back-text {
+        font-size: 0.95rem;
+      }
+      .cute-title {
+        font-size: 1.4rem;
+      }
+      button {
+        padding: 7px 15px;
+        font-size: 0.8rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🎴 Карточки</h1>
-        
-        <div class="mode-badge" id="modeDisplay">🇷🇺 Русский → 🇬🇧 Английский</div>
-        
-        <div class="card-container" onclick="flipCard()">
-            <div class="card" id="card">
-                <div class="card-front" id="front">спать на улице</div>
-                <div class="card-back" id="back">sleep rough</div>
-            </div>
+<div class="app-container">
+  <div class="cute-title">
+    💖 Карточки для любимой Кариночки 💖
+  </div>
+  <div class="sub">
+    ✨ органическая химия — с любовью ✨
+  </div>
+
+  <div class="card-scene">
+    <div class="card" id="cardWrapper">
+      <div id="cardInner" class="inner">
+        <div class="front">
+          <span class="emoji-deco">🌸</span>
+          <div class="front-text" id="frontText">Загрузка...</div>
         </div>
-        
-        <div class="counter" id="counter">1 / 20</div>
-        
-        <div class="controls">
-            <button class="btn" onclick="prevCard()">◀ Назад</button>
-            <button class="btn" onclick="nextCard()">Вперед ▶</button>
+        <div class="back">
+          <span class="emoji-deco">💕</span>
+          <div class="back-text" id="backText"></div>
         </div>
-        
-        <div class="controls">
-            <button class="btn mode" onclick="switchMode()" id="modeBtn">
-                🔄 Поменять (RU→EN)
-            </button>
-        </div>
-        
-        <footer>
-            ❤️ Для Кариночки
-        </footer>
+      </div>
     </div>
+  </div>
 
-    <script>
-        const words = [
-            { en: "sleep rough", ru: "спать на улице" },
-            { en: "grubby", ru: "грязный" },
-            { en: "relucant", ru: "неохотный" },
-            { en: "foster home", ru: "приемная семья" },
-            { en: "fixed address", ru: "постоянный адрес" },
-            { en: "sleeping bag", ru: "спальный мешок" },
-            { en: "shiver", ru: "дрожать" },
-            { en: "temporary", ru: "временный" },
-            { en: "accommodation", ru: "жилье" },
-            { en: "abandoned", ru: "заброшенный" },
-            { en: "warehouse", ru: "склад" },
-            { en: "cramped", ru: "тесный" },
-            { en: "drug addict", ru: "наркоман" },
-            { en: "traffic fumes", ru: "выхлопные газы" },
-            { en: "deafening", ru: "оглушительный" },
-            { en: "choke", ru: "задыхаться" },
-            { en: "begging", ru: "попрошайничество" },
-            { en: "suburbs", ru: "пригороды" },
-            { en: "dignity", ru: "достоинство" },
-            { en: "vicious circle", ru: "замкнутый круг" }
-        ];
+  <div class="controls">
+    <button onclick="window.flipCard()">✨ Перевернуть ✨</button>
+    <button onclick="window.nextCard()">➡️ Следующая</button>
+    <button onclick="window.shuffleCards()">🃏 Перемешать</button>
+    <button onclick="window.toggleMode()">🔄 Сменить режим</button>
+  </div>
 
-        let index = 0;
-        let mode = 'ru-en'; // ru-en (русский вопрос) или en-ru (английский вопрос)
-        let isFlipped = false;
-        let shuffled = [...words];
+  <div class="stats-panel" id="statsPanel">
+    <span>📚 Карточка <span id="currentIndexDisplay">1</span> / <span id="totalCardsCount">0</span></span>
+    <span>✅ Изучено: <span id="studiedCount">0</span></span>
+    <span id="modeDisplay" class="mode-indicator">🎓 Режим: Вещество → Применение</span>
+  </div>
+  <footer>
+    💗 нажми на карточку или кнопку "перевернуть" 💗
+  </footer>
+</div>
 
-        const card = document.getElementById('card');
-        const front = document.getElementById('front');
-        const back = document.getElementById('back');
-        const counter = document.getElementById('counter');
-        const modeDisplay = document.getElementById('modeDisplay');
-        const modeBtn = document.getElementById('modeBtn');
+<script>
+  // ======================= ПОЛНАЯ БАЗА ДАННЫХ =======================
+  // Объединяем все вещества из двух таблиц (с уникальными карточками)
+  const FULL_CARDS_DATA = [
+    // из первого файла (1000029349.jpg)
+    { q: "лимонная кислота", a: "пищевая промышленность, снятие накипи со стенок металлической посуды" },
+    { q: "соли жирных кислот (стеарат натрия)", a: "производство моющих средств" },
+    { q: "триолеин", a: "производство маргарина" },
+    { q: "капрон", a: "изготовление текстильных волокон" },
+    { q: "анилин", a: "производство красителей и лекарств" },
+    { q: "целлюлоза", a: "производство бумаги" },
+    
+    // из второго файла (1000029348.jpg) - подробно
+    { q: "метан, пропан, нефть, природный газ", a: "в качестве топлива (энергетика)" },
+    { q: "этилен", a: "производство этанола, получение пластмасс (ВМС)" },
+    { q: "ацетилен", a: "резка и сварка металлов, получение винилхлорида, получение пластмасс (ВМС)" },
+    { q: "пропилен, стирол, бутадиен", a: "получение пластмасс (ВМС)" },
+    { q: "полипропилен", a: "изготовление упаковочной пленки" },
+    { q: "изопрен, бутадиен", a: "получение каучука, резины" },
+    { q: "ацетон, метанол, хлороформ, тетрахлорид углерода, толуол, этилацетат", a: "в качестве растворителя" },
+    { q: "кумол", a: "сырье для производства фенола" },
+    { q: "этанол", a: "получение дивинила, медицина, пищевая промышленность, в качестве растворителя" },
+    { q: "формальдегид", a: "хранение биологических препаратов, получение пластмасс (ВМС)" },
+    { q: "этиленгликоль", a: "в составе незамерзающих жидкостей (антифризов)" },
+    { q: "глицерин", a: "лекарственные и косметические средства, производство динамита" },
+    { q: "тринитроглицерин", a: "в качестве лекарственного средства, взрывчатое вещество (динамит)" },
+    { q: "уксусная кислота", a: "производство волокон, пищевая промышленность (консервант)" }
+  ];
 
-        function showCard() {
-            const word = shuffled[index];
-            
-            if (mode === 'ru-en') {
-                front.textContent = word.ru;
-                back.textContent = word.en;
-                modeDisplay.textContent = '🇷🇺 Русский → 🇬🇧 Английский';
-                modeBtn.textContent = '🔄 Поменять (EN→RU)';
-            } else {
-                front.textContent = word.en;
-                back.textContent = word.ru;
-                modeDisplay.textContent = '🇬🇧 Английский → 🇷🇺 Русский';
-                modeBtn.textContent = '🔄 Поменять (RU→EN)';
-            }
-            
-            if (isFlipped) {
-                card.classList.add('flipped');
-            } else {
-                card.classList.remove('flipped');
-            }
-            
-            counter.textContent = `${index + 1} / ${shuffled.length}`;
+  // Глобальные переменные
+  let cards = [];              // рабочий массив карточек (будет копией)
+  let currentIndex = 0;
+  let isFlipped = false;
+  let studyMode = 0;          // 0 = вещество (q) на лицевой, применение (a) на обороте; 1 = наоборот
+  let studiedFlags = [];      // true если карточка уже засчитана как изученная
+  let viewedCardsCount = 0;   // количество уникальных изученных карточек
+
+  // Вспомогательные функции UI
+  function updateStatsUI() {
+    document.getElementById("currentIndexDisplay").innerText = currentIndex + 1;
+    document.getElementById("totalCardsCount").innerText = cards.length;
+    document.getElementById("studiedCount").innerText = viewedCardsCount;
+    const modeText = (studyMode === 0) ? "🎓 Режим: Вещество → Применение" : "🔄 Режим: Применение → Вещество";
+    document.getElementById("modeDisplay").innerHTML = modeText;
+  }
+
+  // Загрузить текущую карточку (отобразить текст с учётом режима)
+  function loadCard() {
+    if (!cards.length || cards[currentIndex] === undefined) return;
+    const frontEl = document.getElementById("frontText");
+    const backEl = document.getElementById("backText");
+    const cardData = cards[currentIndex];
+    
+    let frontContent = "";
+    let backContent = "";
+    
+    if (studyMode === 0) {
+      // Режим "Вещество → Применение"
+      frontContent = cardData.q;
+      backContent = cardData.a;
+    } else {
+      // Режим "Применение → Вещество"
+      frontContent = cardData.a;
+      backContent = cardData.q;
+    }
+    
+    // Небольшое форматирование для длинных текстов: оставляем как есть, но с эмодзи
+    frontEl.innerHTML = `<span class="emoji-deco">💖</span> ${frontContent}`;
+    backEl.innerHTML = `<span class="emoji-deco">💗</span> ${backContent}`;
+    
+    // Сбрасываем визуальный переворот при загрузке новой карточки (показываем лицевую сторону)
+    const innerDiv = document.getElementById("cardInner");
+    if (innerDiv.classList.contains("flipped")) {
+      innerDiv.classList.remove("flipped");
+    }
+    isFlipped = false;
+    updateStatsUI();
+  }
+  
+  // Переворот карточки
+  function flipCard() {
+    const innerDiv = document.getElementById("cardInner");
+    innerDiv.classList.toggle("flipped");
+    isFlipped = !isFlipped;
+  }
+  
+  // Следующая карточка — только если карточка перевёрнута (чтобы Кариночка сначала посмотрела ответ)
+  function nextCard() {
+    if (!isFlipped) {
+      alert("💞 Кариночка, переверни карточку пжшка💞\nНажми на карточку или кнопку 'Перевернуть'");
+      return;
+    }
+    
+    // Отмечаем текущую карточку как изученную, если ещё не отмечена
+    if (!studiedFlags[currentIndex]) {
+      studiedFlags[currentIndex] = true;
+      viewedCardsCount++;
+    }
+    
+    // Переход к следующей карточке (циклично)
+    let nextIndex = currentIndex + 1;
+    if (nextIndex >= cards.length) {
+      // Если прошли все карточки — приятное поздравление
+      if (viewedCardsCount === cards.length) {
+        alert("💖Умничка моя ты мой котенок , Ты прошла все карточки💖 Ты гений миллионер котенок филантроп");
+      } else {
+        alert("🌸  ты все сделала котик  🌸");
+      }
+      nextIndex = 0;
+    }
+    currentIndex = nextIndex;
+    
+    // Сбрасываем состояние переворота для новой карточки
+    const innerDiv = document.getElementById("cardInner");
+    if (innerDiv.classList.contains("flipped")) {
+      innerDiv.classList.remove("flipped");
+    }
+    isFlipped = false;
+    
+    // Загружаем новую карточку
+    loadCard();
+  }
+  
+  // Перемешать карточки (сохраняя прогресс изучения, но флаги перемешиваются вместе с карточками)
+  function shuffleCards() {
+    // Алгоритм Фишера-Йетса для перемешивания массива карточек и флагов одновременно
+    for (let i = cards.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [cards[i], cards[j]] = [cards[j], cards[i]];
+      [studiedFlags[i], studiedFlags[j]] = [studiedFlags[j], studiedFlags[i]];
+    }
+    // Сброс текущего индекса на 0
+    currentIndex = 0;
+    // Пересчитываем viewedCardsCount исходя из актуальных флагов
+    viewedCardsCount = studiedFlags.filter(flag => flag === true).length;
+    
+    // Сбрасываем переворот
+    const innerDiv = document.getElementById("cardInner");
+    if (innerDiv.classList.contains("flipped")) {
+      innerDiv.classList.remove("flipped");
+    }
+    isFlipped = false;
+    loadCard();
+    alert(" Карточки перемешаны Продолжай учить с новым порядком Котик Кариночка");
+  }
+  
+  // Сменить режим (Вещество ↔ Применение)
+  function toggleMode() {
+    studyMode = studyMode === 0 ? 1 : 0;
+    // Сбрасываем состояние переворота, чтобы не было путаницы
+    const innerDiv = document.getElementById("cardInner");
+    if (innerDiv.classList.contains("flipped")) {
+      innerDiv.classList.remove("flipped");
+    }
+    isFlipped = false;
+    // Пересчитываем изученные (прогресс остаётся, но режим меняет отображение)
+    viewedCardsCount = studiedFlags.filter(flag => flag === true).length;
+    loadCard();
+    // Маленькая визуальная подсказка
+    const modeSpan = document.getElementById("modeDisplay");
+    if (modeSpan) {
+      modeSpan.style.transform = "scale(1.05)";
+      setTimeout(() => { if(modeSpan) modeSpan.style.transform = ""; }, 200);
+    }
+  }
+  
+  // Сброс прогресса (если захочешь начать всё заново, но без перезагрузки страницы)
+  function resetProgress() {
+    if (confirm("💭 Хочешь обнулить прогресс изучения? Все карточки снова будут \"неизученными\", но останутся те же вещества. 💭")) {
+      studiedFlags = new Array(cards.length).fill(false);
+      viewedCardsCount = 0;
+      currentIndex = 0;
+      const innerDiv = document.getElementById("cardInner");
+      if (innerDiv.classList.contains("flipped")) {
+        innerDiv.classList.remove("flipped");
+      }
+      isFlipped = false;
+      loadCard();
+      alert("✨ Прогресс сброшен! Можно учить заново ✨");
+    }
+  }
+  
+  // Инициализация / запуск приложения
+  function initGame() {
+    // Создаём глубокую копию оригинальных данных
+    cards = FULL_CARDS_DATA.map(card => ({ ...card }));
+    studiedFlags = new Array(cards.length).fill(false);
+    viewedCardsCount = 0;
+    currentIndex = 0;
+    isFlipped = false;
+    studyMode = 0;   // по умолчанию вещество → применение
+    loadCard();
+  }
+  
+  // Привязываем клик на карточку (дубль для надёжности)
+  function bindCardEvents() {
+    const wrapper = document.getElementById("cardWrapper");
+    if (wrapper) {
+      // Убираем старые обработчики, чтобы не было дублей
+      const newWrapper = wrapper.cloneNode(true);
+      wrapper.parentNode.replaceChild(newWrapper, wrapper);
+      newWrapper.id = "cardWrapper";
+      newWrapper.addEventListener("click", (e) => {
+        // Клик по карточке — переворот
+        flipCard();
+      });
+      // Обновляем глобальную ссылку на inner (на всякий случай)
+      const newInner = newWrapper.querySelector("#cardInner");
+      if (newInner) {
+        // ничего дополнительного не нужно
+      }
+    } else {
+      // fallback
+      document.getElementById("cardWrapper")?.addEventListener("click", () => flipCard());
+    }
+  }
+  
+  // Дополнительно: добавить скрытую кнопку сброса (опционально, но можно через консоль или добавить в интерфейс)
+  // Добавим маленькую кнопку "Сбросить прогресс" внизу? Чтобы не загромождать, но сделаем красиво.
+  function addResetButton() {
+    const controlsDiv = document.querySelector(".controls");
+    if (controlsDiv && !document.getElementById("resetProgressBtn")) {
+      const resetBtn = document.createElement("button");
+      resetBtn.id = "resetProgressBtn";
+      resetBtn.innerHTML = "🔄 Сбросить прогресс";
+      resetBtn.style.background = "#ff8aa1";
+      resetBtn.style.boxShadow = "0 2px 6px rgba(255,80,120,0.3)";
+      resetBtn.onclick = () => resetProgress();
+      controlsDiv.appendChild(resetBtn);
+    }
+  }
+  
+  // Экспортируем функции в глобальный объект window, чтобы кнопки в HTML работали
+  window.flipCard = flipCard;
+  window.nextCard = nextCard;
+  window.shuffleCards = shuffleCards;
+  window.toggleMode = toggleMode;
+  window.resetProgress = resetProgress;
+  
+  // Запуск при полной загрузке страницы
+  window.onload = () => {
+    initGame();
+    bindCardEvents();
+    addResetButton();    // добавляем удобную кнопку сброса прогресса
+    // Небольшое приветствие
+    console.log("💖 Карточки для Кариночки загружены! Все вещества из табличек внутри 💖");
+    // показываем тост-приветствие (опционально)
+    setTimeout(() => {
+      if (cards.length) {
+        // можно не алертить, но оставим тихое уведомление в statsPanel на секунду
+        const statsDiv = document.getElementById("statsPanel");
+        if(statsDiv) {
+          const originalHTML = statsDiv.innerHTML;
+          statsDiv.style.transition = "0.2s";
+          statsDiv.style.background = "#ffeef4";
+          setTimeout(() => { if(statsDiv) statsDiv.style.background = ""; }, 500);
         }
-
-        function flipCard() {
-            isFlipped = !isFlipped;
-            card.classList.toggle('flipped');
-        }
-
-        function nextCard() {
-            index = (index + 1) % shuffled.length;
-            isFlipped = false;
-            card.classList.remove('flipped');
-            showCard();
-        }
-
-        function prevCard() {
-            index--;
-            if (index < 0) index = shuffled.length - 1;
-            isFlipped = false;
-            card.classList.remove('flipped');
-            showCard();
-        }
-
-        function switchMode() {
-            mode = mode === 'ru-en' ? 'en-ru' : 'ru-en';
-            isFlipped = false;
-            card.classList.remove('flipped');
-            showCard();
-        }
-
-        // Перемешиваем при загрузке
-        for (let i = shuffled.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-        }
-        
-        showCard();
-    </script>
+      }
+    }, 100);
+  };
+</script>
 </body>
 </html>
